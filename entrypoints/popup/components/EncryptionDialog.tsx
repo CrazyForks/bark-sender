@@ -19,7 +19,7 @@ import {
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { useTranslation } from 'react-i18next';
 import { EncryptionConfig, EncryptionAlgorithm, EncryptionMode, PaddingMode } from '../types';
-import { generateKey, generateIV } from '../../shared/push-service';
+import { generateKey, generateIV, getKeyLength, generateAsciiString } from '../../shared/push-service';
 import { SlideUpTransition } from './DialogTransitions';
 
 interface EncryptionDialogProps {
@@ -46,11 +46,35 @@ export default function EncryptionDialog({ open, config, onClose, onSave }: Encr
             setMode(config.mode);
             setPadding(config.padding);
             setKey(config.key);
-            setIv(generateIV());
+            setIv(generateIV(config.mode));
             setError('');
             setShowPassword(false);
         }
     }, [open, config]);
+
+    // 当模式改变时，重新生成 IV
+    useEffect(() => {
+        if (open) {
+            setIv(generateIV(mode));
+        }
+    }, [mode, open]);
+
+    useEffect(() => {
+        if (open && key) {
+            const targetLength = getKeyLength(algorithm);
+            if (key.length !== targetLength) {
+                if (key.length > targetLength) {
+                    // 如果当前 Key 长度大于目标长度，截取
+                    setKey(key.substring(0, targetLength));
+                } else {
+                    // 如果当前 Key 长度小于目标长度，补齐字符
+                    const additionalLength = targetLength - key.length;
+                    const additionalChars = generateAsciiString(additionalLength);
+                    setKey(key + additionalChars);
+                }
+            }
+        }
+    }, [algorithm, open, key]);
 
     // 生成随机密钥
     const handleGenerateKey = () => {
@@ -60,7 +84,7 @@ export default function EncryptionDialog({ open, config, onClose, onSave }: Encr
 
     // 生成随机 IV
     const handleGenerateIV = () => {
-        const newIv = generateIV();
+        const newIv = generateIV(mode);
         setIv(newIv);
     };
 
@@ -131,6 +155,7 @@ export default function EncryptionDialog({ open, config, onClose, onSave }: Encr
                             onChange={(e) => setMode(e.target.value as EncryptionMode)}
                         >
                             <MenuItem value="CBC">{t('encryption.modes.cbc')}</MenuItem>
+                            <MenuItem value="GCM">{t('encryption.modes.gcm')}</MenuItem>
                         </Select>
                     </FormControl>
 

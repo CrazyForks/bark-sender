@@ -1,4 +1,4 @@
-import { PushResponse, EncryptionAlgorithm, Device } from '../popup/types';
+import { PushResponse, EncryptionAlgorithm, EncryptionConfig, EncryptionMode, Device } from '../popup/types';
 
 /**
  * 消息体（最终发送给服务器的数据）
@@ -67,13 +67,6 @@ export interface PushParams extends Omit<MessagePayload, 'body' | 'id'> {
 }
 
 /**
- * 加密配置接口
- */
-export interface EncryptionConfig {
-    key: string;
-}
-
-/**
  * 加密推送参数接口
  */
 export interface EncryptedPushParams extends PushParams {
@@ -122,7 +115,7 @@ export function generateID(): string {
 /**
  * 生成指定长度 ASCII 字符串
  */
-function generateAsciiString(len: number): string {
+export function generateAsciiString(len: number): string {
     const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     const arr = new Uint8Array(len);
     crypto.getRandomValues(arr);
@@ -132,7 +125,7 @@ function generateAsciiString(len: number): string {
 /**
  * 根据算法获取 KEY 长度
  */
-function getKeyLength(algorithm: EncryptionAlgorithm): number {
+export function getKeyLength(algorithm: EncryptionAlgorithm): number {
     switch (algorithm) {
         case 'AES128':
             return 16;
@@ -154,10 +147,12 @@ export function generateKey(algorithm: EncryptionAlgorithm): string {
 }
 
 /**
- * 生成 16 位随机 IV
+ * 生成随机 IV
+ * @param mode
  */
-export function generateIV(): string {
-    return generateAsciiString(16);
+export function generateIV(mode: 'CBC' | 'GCM' = 'CBC'): string {
+    const length = mode === 'GCM' ? 12 : 16;
+    return generateAsciiString(length);
 }
 
 /**
@@ -194,6 +189,34 @@ export async function encryptAESCBC(plaintext: string, keyStr: string, ivStr: st
     const encryptedBuffer = await crypto.subtle.encrypt(
         {
             name: 'AES-CBC',
+            iv: new Uint8Array(iv)
+        },
+        cryptoKey,
+        new Uint8Array(data)
+    );
+
+    return arrayBufferToBase64(encryptedBuffer);
+}
+
+/**
+ * AES-GCM 加密
+ */
+export async function encryptAESGCM(plaintext: string, keyStr: string, ivStr: string): Promise<string> {
+    const keyBytes = toUtf8Bytes(keyStr);
+    const iv = toUtf8Bytes(ivStr);
+    const data = toUtf8Bytes(plaintext);
+
+    const cryptoKey = await crypto.subtle.importKey(
+        'raw',
+        new Uint8Array(keyBytes),
+        { name: 'AES-GCM' },
+        false,
+        ['encrypt']
+    );
+
+    const encryptedBuffer = await crypto.subtle.encrypt(
+        {
+            name: 'AES-GCM',
             iv: new Uint8Array(iv)
         },
         cryptoKey,
@@ -259,10 +282,13 @@ export async function sendEncryptedPush(msgPayload: MessagePayload, apiURL: stri
         throw new Error('加密配置缺失');
     }
 
-    const iv = generateIV();
+    const mode = encryptionConfig.mode || 'CBC';
+    const iv = generateIV(mode);
     const plaintext = JSON.stringify(msgPayload);
 
-    const ciphertext = await encryptAESCBC(plaintext, encryptionConfig.key, iv);
+    const ciphertext = mode === 'GCM'
+        ? await encryptAESGCM(plaintext, encryptionConfig.key, iv)
+        : await encryptAESCBC(plaintext, encryptionConfig.key, iv);
 
     console.debug('发送加密请求到:', apiURL);
     console.debug('UUID:', msgPayload.id);
@@ -403,7 +429,8 @@ async function sendGroupAPIv2Push(msgPayload: MessagePayloadv2, endpoint: string
 
     // 如果是加密模式，处理加密
     if (encryptionConfig?.key) {
-        const iv = generateIV();
+        const mode = encryptionConfig.mode || 'CBC';
+        const iv = generateIV(mode);
         const plaintext = JSON.stringify({
             body: payload.body,
             title: payload.title,
@@ -412,7 +439,9 @@ async function sendGroupAPIv2Push(msgPayload: MessagePayloadv2, endpoint: string
                 .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
         });
 
-        const ciphertext = await encryptAESCBC(plaintext, encryptionConfig.key, iv);
+        const ciphertext = mode === 'GCM'
+            ? await encryptAESGCM(plaintext, encryptionConfig.key, iv)
+            : await encryptAESCBC(plaintext, encryptionConfig.key, iv);
 
         // 加密模式下，移除 body，title subtitle useAPIv2 字段，使用 ciphertext 和 iv
         const { body, title, subtitle, ...payloadWithoutBody } = payload;

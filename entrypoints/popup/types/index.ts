@@ -32,7 +32,7 @@ export type ThemeMode = 'light' | 'dark' | 'system';
 export type EncryptionAlgorithm = 'AES256' | 'AES192' | 'AES128';
 
 // 加密模式类型  
-export type EncryptionMode = 'CBC';
+export type EncryptionMode = 'CBC' | 'GCM';
 
 // 填充模式类型
 export type PaddingMode = 'pkcs7';

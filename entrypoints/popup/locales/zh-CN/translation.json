@@ -434,7 +434,8 @@
             "aes128": "AES-128"
         },
         "modes": {
-            "cbc": "CBC"
+            "cbc": "CBC",
+            "gcm": "GCM"
         },
         "paddings": {
             "pkcs7": "PKCS7"
