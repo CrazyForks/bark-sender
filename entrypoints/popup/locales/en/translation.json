@@ -68,6 +68,7 @@
         "device_key": "Device Key",
         "device_key_placeholder": "your_key",
         "device_key_helper": "<Server Address>/<Device Key>/ will be used as the final API URL",
+        "device_key_non_standard": "This is not a standard device key, unless you have made special processing",
         "final_url": "Final URL",
         "self_hosted_switch": "Click to switch to self-hosted mode",
         "official_switch": "Click to switch to non-self-hosted mode",
@@ -534,7 +535,8 @@
             "parameters": "Request Parameters",
             "authorization": "Authorization Info",
             "recreate_encrypted_btn": "Recreate IV and Encrypted Data",
-            "recreate_encrypted_data": "Recreate encrypted data"
+            "recreate_encrypted_data": "Recreate encrypted data",
+            "recreate_encrypted_tooltip": "Regenerate IV and encrypted data based on current encryption configuration"
         },
         "drag": {
             "releaseToPrev": "previous",

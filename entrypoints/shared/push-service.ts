@@ -564,3 +564,5 @@ export function getRequestParameters(params: PushParams, isEncrypted: boolean): 
 
     return filteredParams;
 }
+
+export type { EncryptionConfig, EncryptionAlgorithm, EncryptionMode, Device, PushResponse };

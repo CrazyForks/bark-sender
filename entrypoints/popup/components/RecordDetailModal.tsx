@@ -41,7 +41,7 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 
-import { encryptAESCBC, generateIV } from '../../shared/push-service';
+import { encryptAESCBC, encryptAESGCM, generateIV } from '../../shared/push-service';
 import { getAppSettings } from '../utils/settings';
 
 // 注册插件
@@ -561,22 +561,25 @@ export default function RecordDetailModal({ record, open, onClose, onExited, cur
 
     const encryptParameters = async (parameters: any) => {
         try {
-            const iv = generateIV();
+            const settings = await getAppSettings();
+            const encryptionConfig = settings.encryptionConfig;
+
+            if (!encryptionConfig?.key) {
+                console.error('未找到加密密钥');
+                return null;
+            }
+
+            const mode = encryptionConfig.mode || 'CBC';
+            const iv = generateIV(mode);
 
             const plaintext = JSON.stringify({
                 body: parameters.body,
                 title: parameters.title
             });
-            // 读取设置记录的key
-            const settings = await getAppSettings();
-            const key = settings.encryptionConfig?.key;
 
-            if (!key) {
-                console.error('未找到加密密钥');
-                return null;
-            }
-            // 3. 加密
-            const ciphertext = await encryptAESCBC(plaintext, key, iv);
+            const ciphertext = mode === 'GCM'
+                ? await encryptAESGCM(plaintext, encryptionConfig.key, iv)
+                : await encryptAESCBC(plaintext, encryptionConfig.key, iv);
 
             // 4. 更新加密数据状态 合并 displayParameters 和 iv, ciphertext, 移除明文 body, title
             const encryptedResult = { ...displayParameters, iv, ciphertext };
@@ -1050,6 +1053,7 @@ export default function RecordDetailModal({ record, open, onClose, onExited, cur
                                                 {/* 重新生成加密按钮 */}
                                                 {record.isEncrypted && (
                                                     <Button
+                                                        title={t('history.detail.recreate_encrypted_tooltip')}
                                                         variant="outlined"
                                                         size="small"
                                                         onClick={() => {
@@ -1059,7 +1063,6 @@ export default function RecordDetailModal({ record, open, onClose, onExited, cur
                                                     >
                                                         {t('history.detail.recreate_encrypted_btn')}
                                                     </Button>
-
                                                 )}
                                             </Box>
                                         )}

@@ -68,6 +68,7 @@
         "device_key": "裝置 Key",
         "device_key_placeholder": "your_key",
         "device_key_helper": "<伺服器網址>/<裝置 Key>/ 會作為最終 API URL",
+        "device_key_non_standard": "這不是一個常規的裝置 Key, 除非你做了特殊處理",
         "final_url": "最終網址",
         "self_hosted_switch": "點擊切換到自建模式",
         "official_switch": "點擊切換到非自建模式",
@@ -534,7 +535,8 @@
             "parameters": "請求參數",
             "authorization": "認證資訊",
             "recreate_encrypted_btn": "重新生成 IV 和密文",
-            "recreate_encrypted_data": "重新生成加密數據"
+            "recreate_encrypted_data": "重新生成加密數據",
+            "recreate_encrypted_tooltip": "根據當前的加密配置重新生成 IV 和密文"
         },
         "drag": {
             "releaseToPrev": "上一個",

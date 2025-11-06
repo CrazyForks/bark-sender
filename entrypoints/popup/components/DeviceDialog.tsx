@@ -140,11 +140,8 @@ export default function DeviceDialog({
 
         // 自建服务器模式
         if (selfHosted) {
-            // 检查 deviceKey 格式
-            if (!isValidDeviceKey(deviceKey.trim())) {
-                setError(t('device.device_key_invalid'));
-                return;
-            }
+            // 不再阻止非常规设备 Key，可继续
+            // 验证逻辑移到 UI 层面的 helper text 提示
         } else {
             // 非自建服务器模式
             const shortUuidRegex = /^[A-HJ-NP-Za-km-z2-9]{22}$/; // deviceKey 是标准的 22 位的 shortuuid
@@ -325,7 +322,11 @@ export default function DeviceDialog({
                                 size="small"
                                 variant="standard"
                                 fullWidth
-                                error={!!error && error === t('device.device_key_invalid')}
+                                helperText={
+                                    deviceKey.trim() && !isValidDeviceKey(deviceKey.trim())
+                                        ? t('device.device_key_non_standard')
+                                        : t('device.device_key_helper')
+                                }
                                 slotProps={{
                                     input: {
                                         endAdornment: (
@@ -354,9 +355,9 @@ export default function DeviceDialog({
                             fullWidth
                             multiline
                             rows={2}
-                            error={!!error && (error === t('device.api_url_invalid') || error === t('device.device_key_invalid'))}
+                            error={!!error && error === t('device.api_url_invalid')}
                             helperText={
-                                (error === t('device.api_url_invalid') || error === t('device.device_key_invalid'))
+                                error === t('device.api_url_invalid')
                                     ? error
                                     : t('device.api_url_helper')
                             }
@@ -400,7 +401,7 @@ export default function DeviceDialog({
                             )}
                         </Box>
                     </Stack>
-                    {error && error !== t('device.api_url_invalid') && error !== t('device.device_key_invalid') && (
+                    {error && error !== t('device.api_url_invalid') && (
                         <Typography color="error" variant="body2">
                             {error}
                         </Typography>

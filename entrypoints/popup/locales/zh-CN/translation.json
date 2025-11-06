@@ -68,6 +68,7 @@
         "device_key": "设备 Key",
         "device_key_placeholder": "your_key",
         "device_key_helper": "<服务器地址>/<设备 Key>/ 会作为最终 API URL",
+        "device_key_non_standard": "这不是一个常规的设备 Key, 除非你做了特殊处理",
         "final_url": "最终地址",
         "self_hosted_switch": "点击切换到自建模式",
         "ping": "点击测试服务器连通性",
@@ -528,7 +529,8 @@
             "parameters": "请求参数",
             "authorization": "认证信息",
             "recreate_encrypted_btn": "重新生成 IV 和密文",
-            "recreate_encrypted_data": "重新生成加密数据"
+            "recreate_encrypted_data": "重新生成加密数据",
+            "recreate_encrypted_tooltip": "根据当前的加密配置重新生成 IV 和密文"
         },
         "drag": {
             "releaseToPrev": "上一个",
