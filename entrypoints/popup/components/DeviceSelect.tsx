@@ -54,7 +54,6 @@ export default function DeviceSelect({
                 shrink
                 sx={{
                     backgroundColor: 'background.paper',
-                    px: 0.5,
                     '&.MuiInputLabel-shrink': {
                         transform: 'translate(14px, -9px) scale(0.75)'
                     }
@@ -71,6 +70,7 @@ export default function DeviceSelect({
                 onChange={handleChange}
                 label={showLabel ? t('push.target_device') : undefined}
                 displayEmpty
+                sx={{ py: 0.3, }}
                 notched
                 MenuProps={{
                     PaperProps: {

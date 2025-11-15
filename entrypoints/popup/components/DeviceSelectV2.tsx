@@ -96,7 +96,6 @@ export default function DeviceSelectV2({
                 shrink
                 sx={{
                     backgroundColor: 'background.paper',
-                    px: 0.5,
                     '&.MuiInputLabel-shrink': {
                         transform: 'translate(14px, -9px) scale(0.75)'
                     }
@@ -116,7 +115,7 @@ export default function DeviceSelectV2({
                 renderValue={renderValue}
                 displayEmpty
                 MenuProps={MenuProps}
-                sx={{ py: 0.5, }}
+                sx={{ py: 0.3, }}
             >
                 {devices.length === 0 ?
                     <MenuItem disabled value="">

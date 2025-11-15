@@ -159,7 +159,7 @@ export default function EncryptionDialog({ open, config, onClose, onSave }: Encr
                         </Select>
                     </FormControl>
 
-                    <FormControl size="small" fullWidth>
+                    <FormControl size="small" fullWidth disabled={mode === 'GCM'}>
                         {/* 填充 */}
                         <InputLabel>{t('encryption.padding')}</InputLabel>
                         <Select
