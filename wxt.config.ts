@@ -158,7 +158,10 @@ export default defineConfig({
         manifest.browser_specific_settings = {
           gecko: {
             id: 'bark_sender@uuphy.com',
-            strict_min_version: '109.0'
+            strict_min_version: '109.0',
+            data_collection_permissions: {
+              "required": ["none"]
+            }
           }
         };
       } else if (wxt.config.browser === 'edge') {
@@ -168,6 +171,42 @@ export default defineConfig({
           );
         }
         delete manifest.oauth2;
+      } else if (wxt.config.browser === 'safari') {
+        if (manifest.permissions) {
+          // 移除 Safari 不支持的权限
+          manifest.permissions = manifest.permissions.filter(
+            (permission: string) => !['identity', 'notifications'].includes(permission)
+          );
+        }
+
+        delete manifest.oauth2;
+        delete manifest.omnibox; // Safari 不支持 omnibox
+
+
+        if (manifest.commands && manifest.commands['send-clipboard']) {
+          delete manifest.commands['send-clipboard'].global;
+        }
+
+        // Safari 需要 content security policy
+        if (manifest.content_security_policy) {
+          manifest.content_security_policy = {
+            extension_pages: "script-src 'self'; object-src 'self';"
+          };
+        }
+
+        if (manifest.background && 'service_worker' in manifest.background) {
+          const serviceWorkerScript = manifest.background.service_worker;
+          manifest.background = {
+            scripts: [serviceWorkerScript],
+            persistent: false
+          };
+        }
+
+        if (manifest.permissions) {
+          manifest.permissions.push('nativeMessaging');
+        }
+
+        manifest.nativeMessagingHosts = ['com.uuphy.bark-sender'];
       }
     }
   }

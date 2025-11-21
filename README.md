@@ -26,6 +26,11 @@ Just click the badge/ link below to install it from your browser's extension sto
       <a href="https://microsoftedge.microsoft.com/addons/detail/ljjgbgdkhpeimhoianpnleiilmbaaeha">For Microsoft Edge</a>
     </td>
   </tr>
+  <tr>
+    <td align="left" colspan="3">
+      <a href="https://apps.apple.com/app/bark-sender/id6755458686">For Safari (Mac)</a>
+    </td>
+  </tr>
 </table>
 
 ---
@@ -52,6 +57,14 @@ You must install the [ Bark App ](https://apps.apple.com/app/bark-custom-notific
 - Tap any server and choose "Copy URL and Key";
 - In the extension settings page, add the device using the format: `https://api.day.app/:key/`;
 - Select text and right-click to push it to your default device. If no text is selected, right-click will send the current page URL instead.
+
+  **Safari Setup Guide:**
+1. Open the Bark Sender app, click "ENABLE FOR SAFARI" - this will automatically open Safari's extension settings page;
+2. Check the extension checkbox to enable it;
+3. If the right-click menu doesn't work, it's because "Enable inspect and send web content" was enabled in Settings page. This parsing feature requires additional permissions;
+4. Go to Permissions and find "Web Page Contents and Browsing History", click "Always Allow on Every Website...";
+5. If you don't need parsing functionality and only want to send page URLs via right-click, you can disable "Enable inspect and send web content";
+6. **Known Issue:** Some Safari versions have poor clipboard reading support. You may need to wait a while after Safari starts before the feature works properly. For other issues, please [click here to submit an issue](https://github.com/ij369/bark-sender/issues).
 
 ---
 
@@ -106,6 +119,14 @@ Bark Sender 是一个浏览器扩展，允许你将网页中的文字内容或 P
 2. 点击任意服务器，选择“复制地址和 Key”； 
 3. 在扩展配置页里添加设备，格式为：`https://api.day.app/:key/`；
 4. 选中文字，右键发送文字；未选中文字时，右键将发送当前页面链接。
+
+  **Safari 使用说明：**
+1. 打开 Bark Sender APP 软件本体，点击"打开 Safari 设置"，会自动打开 Safari 扩展的设置页；
+2. 将扩展复选框打勾启用扩展；
+3. 如果右键菜单无法使用，是因为扩展的配置页里默认启用了"启用右键解析网页内容"，解析功能需要额外权限；
+4. 需要在 Permissions 中，找到 "网页内容和浏览历史记录" 一项，点击 "在每个网站上始终允许..."；
+5. 如果不需要解析功能，只需要右键发送页面地址，可以关闭 "启用右键解析网页内容"；
+6. **已知问题：** 部分版本的 Safari 对读取剪切板支持不太好，需要等待 Safari 启动一段时间后才能使用。如有其他问题欢迎[点击这里提 issue](https://github.com/ij369/bark-sender/issues)。
 
 ## 演示
 

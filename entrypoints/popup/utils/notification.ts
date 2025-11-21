@@ -23,12 +23,18 @@ export async function showSYSNotification(
             return;
         }
 
-        await browser.notifications.create({
-            type: 'basic',
-            iconUrl: '/icon/128.png',
-            title,
-            message
-        });
+        // 检查浏览器是否支持 notifications API（Safari 不支持）
+        if (browser.notifications && browser.notifications.create) {
+            await browser.notifications.create({
+                type: 'basic',
+                iconUrl: '/icon/128.png',
+                title,
+                message
+            });
+        } else {
+            // Safari 不支持
+            console.log(`通知: ${title} - ${message}`);
+        }
     } catch (error) {
         console.error('创建通知失败:', error);
     }

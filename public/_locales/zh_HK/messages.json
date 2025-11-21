@@ -1,191 +1,254 @@
 {
     "ext_desc": {
-        "message": "Bark Sender 係一款桌面瀏覽器擴充，可快速將網頁選取文字或剪貼簿內容推送到已安裝 Bark App 嘅 iOS 裝置，仲支援加密傳輸同自訂參數。"
+        "message": "Bark Sender 係一款桌面瀏覽器擴充，可快速將網頁選取文字或剪貼簿內容推送到已安裝 Bark App 嘅 iOS 裝置，仲支援加密傳輸同自訂參數。",
+        "description": "Extension description"
     },
     "extension_installed": {
-        "message": "Bark Sender 已安裝"
+        "message": "Bark Sender 已安裝",
+        "description": "Extension installed message"
     },
     "shortcut_triggered": {
-        "message": "已接收到全域快速鍵觸發"
+        "message": "已接收到全域快速鍵觸發",
+        "description": "Global shortcut triggered message"
     },
     "device_not_found_window": {
-        "message": "未能找到預設裝置，但仍會開啟視窗以供用戶設定"
+        "message": "未能找到預設裝置，但仍會開啟視窗以供用戶設定",
+        "description": "Default device not found but window opened"
     },
     "device_not_found": {
-        "message": "未能找到預設裝置，請先新增裝置"
+        "message": "未能找到預設裝置，請先新增裝置",
+        "description": "Default device not found message"
     },
     "creating_small_window": {
-        "message": "正在建立小型視窗"
+        "message": "正在建立小型視窗",
+        "description": "Creating small window message"
     },
     "send_message_to_window_failed": {
-        "message": "發送通知至視窗失敗：$1"
+        "message": "發送通知至視窗失敗：$1",
+        "description": "Failed to send message to window"
     },
     "notification_shortcut_with_device": {
-        "message": "已開啟推送視窗，請點擊「發送剪貼簿內容」按鈕（預設裝置：$1）"
+        "message": "已開啟推送視窗，請點擊「發送剪貼簿內容」按鈕（預設裝置：$1）",
+        "description": "Notification for shortcut with default device"
     },
     "shortcut_processing_failed": {
-        "message": "快速鍵觸發失敗，請手動開啟擴充功能"
+        "message": "快速鍵觸發失敗，請手動開啟擴充功能",
+        "description": "Shortcut processing failed"
     },
     "background_send_push_failed": {
-        "message": "背景推送發送失敗"
+        "message": "背景推送發送失敗",
+        "description": "Background push failed"
     },
     "background_send_encrypted_push_failed": {
-        "message": "背景發送加密推送失敗"
+        "message": "背景發送加密推送失敗",
+        "description": "Background encrypted push failed"
     },
     "background_send_encrypted_request_to": {
-        "message": "背景發出加密請求至：$1"
+        "message": "背景發出加密請求至：$1",
+        "description": "Background send encrypted request"
     },
     "background_encrypted_request_success": {
-        "message": "背景加密請求成功"
+        "message": "背景加密請求成功",
+        "description": "Background encrypted request success"
     },
     "update_context_menus_failed": {
-        "message": "更新右鍵功能表失敗"
+        "message": "更新右鍵功能表失敗",
+        "description": "Context menu update failed"
     },
     "send_selection_to_device": {
-        "message": "發送選取文字至 $1"
+        "message": "發送選取文字至 $1",
+        "description": "Send selection to device"
     },
     "send_page_to_device": {
-        "message": "發送目前頁面網址至 $1"
+        "message": "發送目前頁面網址至 $1",
+        "description": "Send page URL to device"
     },
     "send_link_to_device": {
-        "message": "發送目標連結至 $1"
+        "message": "發送目標連結至 $1",
+        "description": "Send link URL to device"
     },
     "inspect_send": {
-        "message": "分析並發送至 $1"
+        "message": "分析並發送至 $1",
+        "description": "Inspect and send"
     },
     "bark_sender_title": {
-        "message": "Bark Sender"
+        "message": "Bark Sender",
+        "description": "Extension title"
     },
     "sent_to_device": {
-        "message": "已發送至 $1"
+        "message": "已發送至 $1",
+        "description": "Sent to device"
     },
     "send_failed_check_network": {
-        "message": "發送失敗，請檢查網絡連線"
+        "message": "發送失敗，請檢查網絡連線",
+        "description": "Send failed, check network"
     },
     "save_history_record": {
-        "message": "已儲存歷史紀錄"
+        "message": "已儲存歷史紀錄",
+        "description": "History record saved"
     },
     "current_history_total": {
-        "message": "目前歷史紀錄總數：$1"
+        "message": "目前歷史紀錄總數：$1",
+        "description": "Current history count"
     },
     "save_history_failed": {
-        "message": "儲存歷史紀錄失敗"
+        "message": "儲存歷史紀錄失敗",
+        "description": "Save history failed"
     },
     "read_clipboard_failed": {
-        "message": "讀取剪貼簿失敗"
+        "message": "讀取剪貼簿失敗",
+        "description": "Read clipboard failed"
     },
     "error_unknown": {
-        "message": "未知錯誤"
+        "message": "未知錯誤",
+        "description": "Unknown error"
     },
     "enable_speed_mode": {
-        "message": "啟用極速模式"
+        "message": "啟用極速模式",
+        "description": "Enable speed mode"
     },
     "disable_speed_mode": {
-        "message": "關閉極速模式"
+        "message": "關閉極速模式",
+        "description": "Disable speed mode"
     },
     "shortcut_send_clipboard_description": {
-        "message": "發送剪貼簿內容至預設裝置"
+        "message": "發送剪貼簿內容至預設裝置",
+        "description": "Send clipboard to default device"
     },
     "background_image": {
-        "message": "背景圖片"
+        "message": "背景圖片",
+        "description": "Background image"
     },
     "image_content": {
-        "message": "圖片內容"
+        "message": "圖片內容",
+        "description": "Image content"
     },
     "image_link": {
-        "message": "圖片連結"
+        "message": "圖片連結",
+        "description": "Image link"
     },
     "send_image_link": {
-        "message": "發送圖片連結"
+        "message": "發送圖片連結",
+        "description": "Send image link"
     },
     "image_link_invalid": {
-        "message": "僅支援發送 http 或 https 協定的圖片連結"
+        "message": "僅支援發送 http 或 https 協定的圖片連結",
+        "description": "Invalid image link"
     },
     "alt_text": {
-        "message": "替代文字"
+        "message": "替代文字",
+        "description": "Alt text"
     },
     "send_alt_text": {
-        "message": "發送替代文字"
+        "message": "發送替代文字",
+        "description": "Send alt text"
     },
     "image": {
-        "message": "圖片"
+        "message": "圖片",
+        "description": "Image"
     },
     "image_source": {
-        "message": "圖片來源"
+        "message": "圖片來源",
+        "description": "Image source"
     },
     "reload_preview": {
-        "message": "重新載入圖片"
+        "message": "重新載入圖片",
+        "description": "Reload preview"
     },
     "text_content": {
-        "message": "文字內容"
+        "message": "文字內容",
+        "description": "Text content"
     },
     "tag": {
-        "message": "標籤"
+        "message": "標籤",
+        "description": "Tag"
     },
     "no_parent_element": {
-        "message": "無父元素"
+        "message": "無父元素",
+        "description": "No parent element"
     },
     "current_element": {
-        "message": "目前元素"
+        "message": "目前元素",
+        "description": "Current element"
     },
     "parent_element": {
-        "message": "父元素"
+        "message": "父元素",
+        "description": "Parent element"
     },
     "current_element_text": {
-        "message": "目前元素文字"
+        "message": "目前元素文字",
+        "description": "Current element text"
     },
     "send_current_element_text": {
-        "message": "發送目前元素文字"
+        "message": "發送目前元素文字",
+        "description": "Send current element text"
     },
     "parent_element_text": {
-        "message": "父元素文字"
+        "message": "父元素文字",
+        "description": "Parent element text"
     },
     "send_parent_element_text": {
-        "message": "發送父元素文字"
+        "message": "發送父元素文字",
+        "description": "Send parent element text"
     },
     "page_link": {
-        "message": "頁面連結"
+        "message": "頁面連結",
+        "description": "Page link"
     },
     "page_title": {
-        "message": "頁面標題"
+        "message": "頁面標題",
+        "description": "Page title"
     },
     "send_page_link": {
-        "message": "發送頁面連結"
+        "message": "發送頁面連結",
+        "description": "Send page link"
     },
     "target_info": {
-        "message": "目標資訊"
+        "message": "目標資訊",
+        "description": "Target info"
     },
     "link_address": {
-        "message": "連結地址"
+        "message": "連結地址",
+        "description": "Link address"
     },
     "send_link": {
-        "message": "發送連結"
+        "message": "發送連結",
+        "description": "Send link"
     },
     "selected_text": {
-        "message": "選取文字"
+        "message": "選取文字",
+        "description": "Selected text"
     },
     "send_selected_text": {
-        "message": "發送選取文字"
+        "message": "發送選取文字",
+        "description": "Send selected text"
     },
     "select_content_to_send": {
-        "message": "請選擇要發送的內容"
+        "message": "請選擇要發送的內容",
+        "description": "Select content to send"
     },
     "close": {
-        "message": "關閉"
+        "message": "關閉",
+        "description": "Close button"
     },
     "parse_html_error": {
-        "message": "解析 HTML 時出現錯誤"
+        "message": "解析 HTML 時出現錯誤",
+        "description": "Parse HTML error"
     },
     "omnibox_send_push": {
-        "message": "推送内容给默认设备"
+        "message": "推送内容给默认设备",
+        "description": "Send content to default device"
     },
     "large_content_not_last_chunk": {
-        "message": "長按本消息或向下複製, 這不是最後一段"
+        "message": "長按本消息或向下複製, 這不是最後一段",
+        "description": "Large content not last chunk"
     },
     "large_content_last_chunk": {
-        "message": "長按或向下複製, 打開通知中心查看其他內容"
+        "message": "長按或向下複製, 打開通知中心查看其他內容",
+        "description": "Large content last chunk"
     },
     "text_length_tip": {
-        "message": "文字如果過長，可能會分段推送"
+        "message": "文字如果過長，可能會分段推送",
+        "description": "Text length tip"
     }
 }

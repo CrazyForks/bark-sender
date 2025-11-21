@@ -1,191 +1,254 @@
 {
     "ext_desc": {
-        "message": "Bark Sender 是款桌面浏览器扩展，可快速将网页选中文字或剪贴板内容发送到已安装 Bark App 的 iOS 设备，并支持加密传输及自定义推送参数。"
+        "message": "Bark Sender 是款桌面浏览器扩展，可快速将网页选中文字或剪贴板内容发送到已安装 Bark App 的 iOS 设备，并支持加密传输及自定义推送参数。",
+        "description": "Extension description"
     },
     "extension_installed": {
-        "message": "Bark Sender 已安装"
+        "message": "Bark Sender 已安装",
+        "description": "Extension installed message"
     },
     "shortcut_triggered": {
-        "message": "收到全局快捷键触发"
+        "message": "收到全局快捷键触发",
+        "description": "Global shortcut triggered message"
     },
     "device_not_found_window": {
-        "message": "未找到默认设备，但仍打开窗口让用户配置"
+        "message": "未找到默认设备，但仍打开窗口让用户配置",
+        "description": "Default device not found but window opened"
     },
     "device_not_found": {
-        "message": "未找到默认设备，请先添加设备"
+        "message": "未找到默认设备，请先添加设备",
+        "description": "Default device not found message"
     },
     "creating_small_window": {
-        "message": "创建小窗口"
+        "message": "创建小窗口",
+        "description": "Creating small window message"
     },
     "send_message_to_window_failed": {
-        "message": "发送消息到窗口失败：$1"
+        "message": "发送消息到窗口失败：$1",
+        "description": "Failed to send message to window"
     },
     "notification_shortcut_with_device": {
-        "message": "已打开推送窗口，点击\"发送剪切板内容\"按钮 (默认设备：$1)"
+        "message": "已打开推送窗口，点击\"发送剪切板内容\"按钮 (默认设备：$1)",
+        "description": "Notification for shortcut with default device"
     },
     "shortcut_processing_failed": {
-        "message": "快捷键触发失败，请手动打开扩展"
+        "message": "快捷键触发失败，请手动打开扩展",
+        "description": "Shortcut processing failed"
     },
     "background_send_push_failed": {
-        "message": "Background发送推送失败"
+        "message": "Background发送推送失败",
+        "description": "Background push failed"
     },
     "background_send_encrypted_push_failed": {
-        "message": "Background 发送加密推送失败"
+        "message": "Background 发送加密推送失败",
+        "description": "Background encrypted push failed"
     },
     "background_send_encrypted_request_to": {
-        "message": "Background 发送加密请求到：$1"
+        "message": "Background 发送加密请求到：$1",
+        "description": "Background send encrypted request"
     },
     "background_encrypted_request_success": {
-        "message": "Background 加密请求成功"
+        "message": "Background 加密请求成功",
+        "description": "Background encrypted request success"
     },
     "update_context_menus_failed": {
-        "message": "更新右键菜单失败"
+        "message": "更新右键菜单失败",
+        "description": "Context menu update failed"
     },
     "send_selection_to_device": {
-        "message": "发送选中的文本给 $1"
+        "message": "发送选中的文本给 $1",
+        "description": "Send selection to device"
     },
     "send_page_to_device": {
-        "message": "发送当前页面的网址给 $1"
+        "message": "发送当前页面的网址给 $1",
+        "description": "Send page URL to device"
     },
     "send_link_to_device": {
-        "message": "发送目标网址给 $1"
+        "message": "发送目标网址给 $1",
+        "description": "Send link URL to device"
     },
     "inspect_send": {
-        "message": "解析并发送给 $1"
+        "message": "解析并发送给 $1",
+        "description": "Inspect and send"
     },
     "bark_sender_title": {
-        "message": "Bark Sender"
+        "message": "Bark Sender",
+        "description": "Extension title"
     },
     "sent_to_device": {
-        "message": "已发送到 $1"
+        "message": "已发送到 $1",
+        "description": "Sent to device"
     },
     "send_failed_check_network": {
-        "message": "发送失败，请检查网络连接"
+        "message": "发送失败，请检查网络连接",
+        "description": "Send failed, check network"
     },
     "save_history_record": {
-        "message": "历史记录已保存"
+        "message": "历史记录已保存",
+        "description": "History record saved"
     },
     "current_history_total": {
-        "message": "当前历史记录总数：$1"
+        "message": "当前历史记录总数：$1",
+        "description": "Current history count"
     },
     "save_history_failed": {
-        "message": "保存历史记录失败"
+        "message": "保存历史记录失败",
+        "description": "Save history failed"
     },
     "read_clipboard_failed": {
-        "message": "读取剪切板失败"
+        "message": "读取剪切板失败",
+        "description": "Read clipboard failed"
     },
     "error_unknown": {
-        "message": "未知错误"
+        "message": "未知错误",
+        "description": "Unknown error"
     },
     "enable_speed_mode": {
-        "message": "开启极速模式"
+        "message": "开启极速模式",
+        "description": "Enable speed mode"
     },
     "disable_speed_mode": {
-        "message": "关闭极速模式"
+        "message": "关闭极速模式",
+        "description": "Disable speed mode"
     },
     "shortcut_send_clipboard_description": {
-        "message": "发送剪切板内容到默认设备"
+        "message": "发送剪切板内容到默认设备",
+        "description": "Send clipboard to default device"
     },
     "background_image": {
-        "message": "背景图片"
+        "message": "背景图片",
+        "description": "Background image"
     },
     "image_content": {
-        "message": "图片内容"
+        "message": "图片内容",
+        "description": "Image content"
     },
     "image_link": {
-        "message": "图片链接"
+        "message": "图片链接",
+        "description": "Image link"
     },
     "send_image_link": {
-        "message": "发送图片链接"
+        "message": "发送图片链接",
+        "description": "Send image link"
     },
     "image_link_invalid": {
-        "message": "只能发送 http 或 https 协议的图片链接"
+        "message": "只能发送 http 或 https 协议的图片链接",
+        "description": "Invalid image link"
     },
     "alt_text": {
-        "message": "替代文本"
+        "message": "替代文本",
+        "description": "Alt text"
     },
     "send_alt_text": {
-        "message": "发送替代文本"
+        "message": "发送替代文本",
+        "description": "Send alt text"
     },
     "image": {
-        "message": "图片"
+        "message": "图片",
+        "description": "Image"
     },
     "image_source": {
-        "message": "图片来源"
+        "message": "图片来源",
+        "description": "Image source"
     },
     "reload_preview": {
-        "message": "重新加载图片"
+        "message": "重新加载图片",
+        "description": "Reload preview"
     },
     "text_content": {
-        "message": "文字内容"
+        "message": "文字内容",
+        "description": "Text content"
     },
     "tag": {
-        "message": "标签"
+        "message": "标签",
+        "description": "Tag"
     },
     "no_parent_element": {
-        "message": "无父元素"
+        "message": "无父元素",
+        "description": "No parent element"
     },
     "current_element": {
-        "message": "当前元素"
+        "message": "当前元素",
+        "description": "Current element"
     },
     "parent_element": {
-        "message": "父元素"
+        "message": "父元素",
+        "description": "Parent element"
     },
     "current_element_text": {
-        "message": "当前元素文本"
+        "message": "当前元素文本",
+        "description": "Current element text"
     },
     "send_current_element_text": {
-        "message": "发送当前元素文本"
+        "message": "发送当前元素文本",
+        "description": "Send current element text"
     },
     "parent_element_text": {
-        "message": "父元素文本"
+        "message": "父元素文本",
+        "description": "Parent element text"
     },
     "send_parent_element_text": {
-        "message": "发送父元素文本"
+        "message": "发送父元素文本",
+        "description": "Send parent element text"
     },
     "page_link": {
-        "message": "页面链接"
+        "message": "页面链接",
+        "description": "Page link"
     },
     "page_title": {
-        "message": "页面标题"
+        "message": "页面标题",
+        "description": "Page title"
     },
     "send_page_link": {
-        "message": "发送页面链接"
+        "message": "发送页面链接",
+        "description": "Send page link"
     },
     "target_info": {
-        "message": "目标信息"
+        "message": "目标信息",
+        "description": "Target info"
     },
     "link_address": {
-        "message": "链接地址"
+        "message": "链接地址",
+        "description": "Link address"
     },
     "send_link": {
-        "message": "发送链接"
+        "message": "发送链接",
+        "description": "Send link"
     },
     "selected_text": {
-        "message": "选中文本"
+        "message": "选中文本",
+        "description": "Selected text"
     },
     "send_selected_text": {
-        "message": "发送选中文本"
+        "message": "发送选中文本",
+        "description": "Send selected text"
     },
     "select_content_to_send": {
-        "message": "选择要发送的内容"
+        "message": "选择要发送的内容",
+        "description": "Select content to send"
     },
     "close": {
-        "message": "关闭"
+        "message": "关闭",
+        "description": "Close button"
     },
     "parse_html_error": {
-        "message": "解析 HTML 时出错"
+        "message": "解析 HTML 时出错",
+        "description": "Parse HTML error"
     },
     "omnibox_send_push": {
-        "message": "推送内容给默认设备"
+        "message": "推送内容给默认设备",
+        "description": "Send content to default device"
     },
     "large_content_not_last_chunk": {
-        "message": "长按本消息或向下滚动复制, 这不是最后一段"
+        "message": "长按本消息或向下滚动复制, 这不是最后一段",
+        "description": "Large content not last chunk"
     },
     "large_content_last_chunk": {
-        "message": "长按或向下滚动复制, 打开通知中心查看其他内容"
+        "message": "长按或向下滚动复制, 打开通知中心查看其他内容",
+        "description": "Large content last chunk"
     },
     "text_length_tip": {
-        "message": "文本如果过长，可能会分段发送"
+        "message": "文本如果过长，可能会分段发送",
+        "description": "Text length tip"
     }
 }

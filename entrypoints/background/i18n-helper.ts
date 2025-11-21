@@ -32,9 +32,10 @@ export async function initBackgroundI18n(): Promise<void> {
             await browser.storage.local.set({ language: browserLang });
         }
 
-        console.debug('Background i18n 初始化完成，当前语言:', currentLanguage);
+        // Safari 下会乱码
+        // console.debug('Background i18n initialized, current language:', currentLanguage);
     } catch (error) {
-        console.error('初始化 background i18n 失败:', error);
+        // console.error('Failed to initialize background i18n:', error);
         currentLanguage = DEFAULT_LANGUAGE;
     }
 }

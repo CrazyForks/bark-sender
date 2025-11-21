@@ -10,6 +10,25 @@ export default defineBackground(() => {
   initBackgroundI18n();
   watchLanguageChanges();
 
+  // Safari 启动时预热 native messaging 连接
+  if (typeof navigator !== 'undefined') {
+    const userAgent = navigator.userAgent.toLowerCase();
+    if (userAgent.includes('safari') && !userAgent.includes('chrome')) {
+      setTimeout(() => {
+        // 发送 ping 预热连接
+        browser.runtime.sendNativeMessage('com.uuphy.bark-sender', {
+          action: 'ping'
+        }, (response) => {
+          if (browser.runtime.lastError) {
+            console.log('[NativeMessaging] Warmup failed:', browser.runtime.lastError.message);
+          } else {
+            console.log('[NativeMessaging] Connection warmed up');
+          }
+        });
+      }, 1000);
+    }
+  }
+
   // 检查自定义参数差异，只返回与默认配置不同的参数
   function getCustomParametersDifference(settings: any): Record<string, any> {
     const customParams: Record<string, any> = {};
@@ -175,6 +194,19 @@ export default defineBackground(() => {
         });
       return true;
     }
+
+    // 处理来自 popup 的 Safari native messaging
+    if (message.action === 'readClipboardFromNative') {
+      handleNativeClipboardRead()
+        .then(result => {
+          sendResponse(result);
+        })
+        .catch(error => {
+          sendResponse({ success: false, data: error.message, type: 'error' });
+        });
+      return true;
+    }
+
 
     // 处理来自 content script 的发送内容请求
     if (message.action === 'send_content') {
@@ -625,6 +657,32 @@ export default defineBackground(() => {
     }
   }
 
+  // 处理 Safari native messaging 剪切板读取
+  async function handleNativeClipboardRead(): Promise<{ success: boolean; data: string; type: string }> {
+    return new Promise((resolve, reject) => {
+      try {
+        browser.runtime.sendNativeMessage('com.uuphy.bark-sender', {
+          action: 'readClipboard'
+        }, (response) => {
+          if (browser.runtime.lastError) {
+            console.error('Native messaging error:', browser.runtime.lastError);
+            reject(new Error('Native messaging Error: ' + browser.runtime.lastError.message));
+            return;
+          }
+
+          if (response) {
+            resolve(response);
+          } else {
+            reject(new Error('Native app no response'));
+          }
+        });
+      } catch (error) {
+        console.error('Send native message failed:', error);
+        reject(new Error('Cannot communicate with macOS container'));
+      }
+    });
+  }
+
   // 监听快捷键命令
   browser.commands.onCommand.addListener(async (command) => {
     // console.debug('收到快捷键命令:', command);
@@ -804,18 +862,20 @@ export default defineBackground(() => {
     }
   }
   // 监听 omnibox 输入完成（回车）
-  browser.omnibox.onInputEntered.addListener(async (text) => {
-    if (text.trim()) {
-      await handleOmniboxPush(text.trim());
-    }
-  });
+  if (browser.omnibox) {
+    browser.omnibox.onInputEntered.addListener(async (text) => {
+      if (text.trim()) {
+        await handleOmniboxPush(text.trim());
+      }
+    });
 
-  // 监听 omnibox 输入变化，提供建议
-  browser.omnibox.onInputChanged.addListener((text, suggest) => {
-    if (text.trim()) {
-      browser.omnibox.setDefaultSuggestion({ description: getMessage('omnibox_send_push') });
-    }
-  });
+    // 监听 omnibox 输入变化，提供建议
+    browser.omnibox.onInputChanged.addListener((text, suggest) => {
+      if (text.trim()) {
+        browser.omnibox.setDefaultSuggestion({ description: getMessage('omnibox_send_push') });
+      }
+    });
+  }
 
   // 处理地址栏推送发送
   async function handleOmniboxPush(message: string) {

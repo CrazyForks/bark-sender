@@ -1,191 +1,254 @@
 {
     "ext_desc": {
-        "message": "Bark Sender is an open-source extension that sends webpage or clipboard text to iOS device with encryption and custom parameters."
+        "message": "Send web content or clipboard text to your device via Bark app with custom parameters",
+        "description": "Extension description"
     },
     "extension_installed": {
-        "message": "Bark Sender installed"
+        "message": "Bark Sender installed",
+        "description": "Extension installed message"
     },
     "shortcut_triggered": {
-        "message": "Global shortcut triggered"
+        "message": "Global shortcut triggered",
+        "description": "Global shortcut triggered message"
     },
     "device_not_found_window": {
-        "message": "No default device found, but still opening window for user configuration"
+        "message": "No default device found, but still opening window for user configuration",
+        "description": "No default device found, but still opening window for user configuration"
     },
     "device_not_found": {
-        "message": "No default device found, please add a device first"
+        "message": "No default device found, please add a device first",
+        "description": "No default device found, please add a device first"
     },
     "creating_small_window": {
-        "message": "Creating small window"
+        "message": "Creating small window",
+        "description": "Creating small window message"
     },
     "send_message_to_window_failed": {
-        "message": "Failed to send message to window: $1"
+        "message": "Failed to send message to window: $1",
+        "description": "Failed to send message to window"
     },
     "notification_shortcut_with_device": {
-        "message": "Push window opened, click \"Send Clipboard Content\" button (Default device: $1)"
+        "message": "Push window opened, click \"Send Clipboard Content\" button (Default device: $1)",
+        "description": "Notification for shortcut with default device"
     },
     "shortcut_processing_failed": {
-        "message": "Shortcut trigger failed, please open extension manually"
+        "message": "Shortcut trigger failed, please open extension manually",
+        "description": "Shortcut processing failed"
     },
     "background_send_push_failed": {
-        "message": "Background failed to send push"
+        "message": "Background failed to send push",
+        "description": "Background send push failed"
     },
     "background_send_encrypted_push_failed": {
-        "message": "Background failed to send encrypted push"
+        "message": "Background failed to send encrypted push",
+        "description": "Background send encrypted push failed"
     },
     "background_send_encrypted_request_to": {
-        "message": "Background sending encrypted request to: $1"
+        "message": "Background sending encrypted request to: $1",
+        "description": "Background send encrypted request"
     },
     "background_encrypted_request_success": {
-        "message": "Background encrypted request successful"
+        "message": "Background encrypted request successful",
+        "description": "Background encrypted request successful"
     },
     "update_context_menus_failed": {
-        "message": "Failed to update context menu"
+        "message": "Failed to update context menu",
+        "description": "Context menu update failed"
     },
     "send_selection_to_device": {
-        "message": "Send selected text to $1"
+        "message": "Send selected text to $1",
+        "description": "Send selected text to device"
     },
     "send_page_to_device": {
-        "message": "Send current page URL to $1"
+        "message": "Send current page URL to $1",
+        "description": "Send current page URL to device"
     },
     "send_link_to_device": {
-        "message": "Send target URL to $1"
+        "message": "Send target URL to $1",
+        "description": "Send target URL to device"
     },
     "inspect_send": {
-        "message": "Inspect and send to $1"
+        "message": "Inspect and send to $1",
+        "description": "Inspect and send to device"
     },
     "bark_sender_title": {
-        "message": "Bark Sender"
+        "message": "Bark Sender",
+        "description": "Bark sender title"
     },
     "sent_to_device": {
-        "message": "Sent to $1"
+        "message": "Sent to $1",
+        "description": "Sent to device"
     },
     "send_failed_check_network": {
-        "message": "Send failed, please check network connection"
+        "message": "Send failed, please check network connection",
+        "description": "Send failed, check network"
     },
     "save_history_record": {
-        "message": "History record saved"
+        "message": "History record saved",
+        "description": "History record saved"
     },
     "current_history_total": {
-        "message": "Current total history records: $1"
+        "message": "Current total history records: $1",
+        "description": "Current history count"
     },
     "save_history_failed": {
-        "message": "Failed to save history record"
+        "message": "Failed to save history record",
+        "description": "Save history failed"
     },
     "read_clipboard_failed": {
-        "message": "Failed to read clipboard"
+        "message": "Failed to read clipboard",
+        "description": "Read clipboard failed"
     },
     "error_unknown": {
-        "message": "Unknown error"
+        "message": "Unknown error",
+        "description": "Unknown error"
     },
     "enable_speed_mode": {
-        "message": "Enable Speed Mode"
+        "message": "Enable Speed Mode",
+        "description": "Enable speed mode"
     },
     "disable_speed_mode": {
-        "message": "Disable Speed Mode"
+        "message": "Disable Speed Mode",
+        "description": "Disable speed mode"
     },
     "shortcut_send_clipboard_description": {
-        "message": "Send clipboard content to default device"
+        "message": "Send clipboard content to default device",
+        "description": "Send clipboard to default device"
     },
     "background_image": {
-        "message": "Background image"
+        "message": "Background image",
+        "description": "Background image"
     },
     "image_content": {
-        "message": "Image Content"
+        "message": "Image Content",
+        "description": "Image content"
     },
     "image_link": {
-        "message": "Image Link"
+        "message": "Image Link",
+        "description": "Image link"
     },
     "send_image_link": {
-        "message": "Send Image Link"
+        "message": "Send Image Link",
+        "description": "Send image link"
     },
     "image_link_invalid": {
-        "message": "Only http or https protocol image links are allowed"
+        "message": "Only http or https protocol image links are allowed",
+        "description": "Invalid image link"
     },
     "alt_text": {
-        "message": "Alt Text"
+        "message": "Alt Text",
+        "description": "Alt text"
     },
     "send_alt_text": {
-        "message": "Send Alt Text"
+        "message": "Send Alt Text",
+        "description": "Send alt text"
     },
     "image": {
-        "message": "Image"
+        "message": "Image",
+        "description": "Image"
     },
     "image_source": {
-        "message": "Image source"
+        "message": "Image source",
+        "description": "Image source"
     },
     "reload_preview": {
-        "message": "Reload Preview"
+        "message": "Reload Preview",
+        "description": "Reload preview"
     },
     "text_content": {
-        "message": "Text Content"
+        "message": "Text Content",
+        "description": "Text content"
     },
     "tag": {
-        "message": "Tag"
+        "message": "Tag",
+        "description": "Tag"
     },
     "no_parent_element": {
-        "message": "No parent element"
+        "message": "No parent element",
+        "description": "No parent element"
     },
     "current_element": {
-        "message": "Current Element"
+        "message": "Current Element",
+        "description": "Current element"
     },
     "parent_element": {
-        "message": "Parent Element"
+        "message": "Parent Element",
+        "description": "Parent element"
     },
     "current_element_text": {
-        "message": "Current Element Text"
+        "message": "Current Element Text",
+        "description": "Current element text"
     },
     "send_current_element_text": {
-        "message": "Send Current Element Text"
+        "message": "Send Current Element Text",
+        "description": "Send current element text"
     },
     "parent_element_text": {
-        "message": "Parent Element Text"
+        "message": "Parent Element Text",
+        "description": "Parent element text"
     },
     "send_parent_element_text": {
-        "message": "Send Parent Element Text"
+        "message": "Send Parent Element Text",
+        "description": "Send parent element text"
     },
     "page_link": {
-        "message": "Page Link"
+        "message": "Page Link",
+        "description": "Page link"
     },
     "page_title": {
-        "message": "Page Title"
+        "message": "Page Title",
+        "description": "Page title"
     },
     "send_page_link": {
-        "message": "Send Page Link"
+        "message": "Send Page Link",
+        "description": "Send page link"
     },
     "target_info": {
-        "message": "Target Info"
+        "message": "Target Info",
+        "description": "Target info"
     },
     "link_address": {
-        "message": "Link Address"
+        "message": "Link Address",
+        "description": "Link address"
     },
     "send_link": {
-        "message": "Send Link"
+        "message": "Send Link",
+        "description": "Send link"
     },
     "selected_text": {
-        "message": "Selected Text"
+        "message": "Selected Text",
+        "description": "Selected text"
     },
     "send_selected_text": {
-        "message": "Send Selected Text"
+        "message": "Send Selected Text",
+        "description": "Send selected text"
     },
     "select_content_to_send": {
-        "message": "Select Content to Send"
+        "message": "Select Content to Send",
+        "description": "Select content to send"
     },
     "close": {
-        "message": "Close"
+        "message": "Close",
+        "description": "Close"
     },
     "parse_html_error": {
-        "message": "Error occurred while parsing HTML"
+        "message": "Error occurred while parsing HTML",
+        "description": "Parse HTML error"
     },
     "omnibox_send_push": {
-        "message": "Send content to default device"
+        "message": "Send content to default device",
+        "description": "Send content to default device"
     },
     "large_content_not_last_chunk": {
-        "message": "Scroll down or press and hold to copy, this is not the last chunk."
+        "message": "Scroll down or press and hold to copy, this is not the last chunk.",
+        "description": "Large content not last chunk"
     },
     "large_content_last_chunk": {
-        "message": "Scroll down or press and hold to copy, open notification center to see the other content"
+        "message": "Scroll down or press and hold to copy, open notification center to see the other content",
+        "description": "Large content last chunk"
     },
     "text_length_tip": {
-        "message": "If the text is too long, it may be sent in chunks"
+        "message": "If the text is too long, it may be sent in chunks",
+        "description": "Text length tip"
     }
 }

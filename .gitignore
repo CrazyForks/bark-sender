@@ -28,3 +28,6 @@ web-ext.config.ts
 # hidden files
 /assets/
 .env
+
+xcuserdata/
+*.xcuserstate
