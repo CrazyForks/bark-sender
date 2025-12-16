@@ -14,6 +14,7 @@ import { sendPush, getRequestParameters, generateID, PushParams, EncryptionConfi
  * @param advancedParams 自定义参数
  * @param devices 设备列表
  * @param icon 图标URL
+ * @param markdownEnabled 是否启用markdown
  */
 export async function sendPushMessage(
     device: Device,
@@ -24,7 +25,8 @@ export async function sendPushMessage(
     url?: string,
     advancedParams?: Record<string, any>,
     devices?: Device[],
-    icon?: string
+    icon?: string,
+    markdownEnabled?: boolean
 ): Promise<PushResponse> {
     let response: PushResponse;
     let method: 'GET' | 'POST' = 'GET';
@@ -47,6 +49,14 @@ export async function sendPushMessage(
                     value !== "" && value !== null && value !== undefined
                 )
             );
+        }
+
+        // 消息内容设置为 markdown 的内容
+        if (settings.enableApiV2 && markdownEnabled) {
+            processedAdvancedParams = {
+                ...processedAdvancedParams,
+                markdown: message
+            };
         }
 
         // 确定最终使用的图标：优先级 传入的icon > 自定义头像

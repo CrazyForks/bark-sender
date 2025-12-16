@@ -55,6 +55,7 @@ export default function SendPush({ devices, defaultDevice, onAddDevice }: SendPu
     const [message, setMessage] = useState('');
     const [loading, setLoading] = useState(false);
     const [clipboardLoading, setClipboardLoading] = useState(false);
+    const [markdownEnabled, setMarkdownEnabled] = useState(false);
     const [result, setResult] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
     const [shortcutDialogOpen, setShortcutDialogOpen] = useState(false);
     const [shortcutClipboardText, setShortcutClipboardText] = useState('');
@@ -222,7 +223,9 @@ export default function SendPush({ devices, defaultDevice, onAddDevice }: SendPu
                 undefined,
                 undefined,
                 advancedParams,
-                isApiV2 ? selectedDevices : undefined
+                isApiV2 ? selectedDevices : undefined,
+                undefined,
+                markdownEnabled
             );
 
             if (response.code === 200) {
@@ -361,7 +364,9 @@ export default function SendPush({ devices, defaultDevice, onAddDevice }: SendPu
                 undefined,
                 undefined,
                 advancedParams,
-                isApiV2 ? selectedDevices : undefined
+                isApiV2 ? selectedDevices : undefined,
+                undefined,
+                markdownEnabled
             );
 
             if (response.code === 200) {
@@ -422,7 +427,9 @@ export default function SendPush({ devices, defaultDevice, onAddDevice }: SendPu
                 undefined,
                 undefined,
                 advancedParams,
-                isApiV2 ? selectedDevices : undefined
+                isApiV2 ? selectedDevices : undefined,
+                undefined,
+                markdownEnabled
             );
 
             if (response.code === 200) {
@@ -615,21 +622,47 @@ export default function SendPush({ devices, defaultDevice, onAddDevice }: SendPu
                     )}
 
                     <Stack gap={2}>
-                        <TextField
-                            /* 推送内容 */
-                            label={t('push.message')}
-                            /* 输入要推送的消息内容 */
-                            placeholder={t('push.message_placeholder')}
-                            multiline
-                            rows={3}
-                            value={message}
-                            onChange={handleMessageChange}
-                            onKeyDown={handleKeyDown}
-                            variant="outlined"
-                            size="small"
-                            fullWidth
-                            autoFocus
-                        />
+                        {/* 
+                        Source: by Dustin Curtis (CC0)
+                        Original: https://github.com/dcurtis/markdown-mark/
+                        */}
+
+                        <Box sx={{ position: 'relative' }}>
+                            <TextField
+                                label={t('push.message')}
+                                /* 输入要推送的消息内容 */
+                                placeholder={t('push.message_placeholder')}
+                                multiline
+                                rows={3}
+                                value={message}
+                                onChange={handleMessageChange}
+                                onKeyDown={handleKeyDown}
+                                variant="outlined"
+                                size="small"
+                                fullWidth
+                                autoFocus
+                            />
+                            {isApiV2 && (
+                                <Tooltip title={markdownEnabled ? t('push.markdown_disable') : t('push.markdown_enable')}>
+                                    <IconButton
+                                        size="small"
+                                        onClick={() => setMarkdownEnabled(!markdownEnabled)}
+                                        sx={{
+                                            position: 'absolute',
+                                            top: 8,
+                                            right: 8,
+                                            backgroundColor: markdownEnabled ? 'primary.main' : 'transparent',
+                                            color: 'white',
+                                            '&:hover': {
+                                                backgroundColor: markdownEnabled ? 'primary.dark' : 'action.hover',
+                                            },
+                                        }}
+                                    >
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" hanging="16" viewBox="0 -40 208 208"><rect width="198" height="118" x="5" y="5" ry="10" stroke="#000" stroke-width="10" fill="currentColor" /><path d="M30 98V30h20l20 25 20-25h20v68H90V59L70 84 50 59v39zm125 0l-30-33h20V30h20v35h20z" /></svg>
+                                    </IconButton>
+                                </Tooltip>
+                            )}
+                        </Box>
 
                         <Collapse
                             in={!!result}

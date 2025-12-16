@@ -36,6 +36,7 @@ export interface MessagePayload {
     isArchive?: '1'; // 传1保存推送，传其他的不保存推送，不传按APP内设置来决定是否保存
     url?: string; // 点击推送时，跳转的URL
     action?: 'none'; // 传"none"时，点击推送不会弹窗
+    markdown?: string; // markdown格式的推送内容，API v2 使用
     id?: string; // 作为请求参数里的id作为唯一标识，这个id后续修改撤回功能会用到
     delete?: '1'; // 传"1"配合id参数可以撤回推送
     iv?: string; // 加密推送的 iv，API v2 使用, API v1 放在 Form Data 中
@@ -427,6 +428,11 @@ async function sendGroupAPIv2Push(msgPayload: MessagePayloadv2, endpoint: string
 
     let payload = { ...msgPayload };
 
+    if (payload.markdown) {
+        const { body, ...payloadWithoutBody } = payload;
+        payload = payloadWithoutBody;
+    }
+
     // 如果是加密模式，处理加密
     if (encryptionConfig?.key) {
         const mode = encryptionConfig.mode || 'CBC';
@@ -443,8 +449,8 @@ async function sendGroupAPIv2Push(msgPayload: MessagePayloadv2, endpoint: string
             ? await encryptAESGCM(plaintext, encryptionConfig.key, iv)
             : await encryptAESCBC(plaintext, encryptionConfig.key, iv);
 
-        // 加密模式下，移除 body，title subtitle useAPIv2 字段，使用 ciphertext 和 iv
-        const { body, title, subtitle, ...payloadWithoutBody } = payload;
+        // 加密模式下，移除 body，title subtitle markdown 字段，使用 ciphertext 和 iv
+        const { body, title, subtitle, markdown, ...payloadWithoutBody } = payload;
         payload = {
             ...payloadWithoutBody,
             ciphertext,
@@ -545,6 +551,7 @@ export function getRequestParameters(params: PushParams, isEncrypted: boolean): 
         group: params.group,
         isArchive: params.isArchive,
         action: params.action,
+        markdown: params.markdown,
         delete: params.delete
     };
 

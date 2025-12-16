@@ -371,6 +371,8 @@
         "select_device_length": "{{count}} devices selected",
         "tips_dbl_appbar": "Double-click the app bar to pop out",
         "tips_omnibox": "Type 'bb <content>' in the address bar to push",
+        "markdown_enable": "Enable Markdown format",
+        "markdown_disable": "Disable Markdown format",
         "recall": {
             "button": "Try Recall",
             "button2": "Due to the limited support for batch message recall by Bark, this function cannot guarantee successful recall. Please pay attention to future updates.",
