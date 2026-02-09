@@ -27,7 +27,8 @@ export default defineConfig({
       'activeTab',
       'notifications',
       'clipboardRead', // Firefox 不支持 clipboardRead 权限
-      'identity' // Chrome 特有
+      'identity', // Chrome 特有
+      'sidePanel' // Chrome 特有
     ],
     host_permissions: [
       'https://*/*',
@@ -150,7 +151,7 @@ export default defineConfig({
 
         if (manifest.permissions) {
           manifest.permissions = manifest.permissions.filter(
-            (permission: string) => permission !== 'identity'
+            (permission: string) => !['identity', 'sidePanel'].includes(permission)
           );
         }
         delete manifest.oauth2;
@@ -167,7 +168,7 @@ export default defineConfig({
       } else if (wxt.config.browser === 'edge') {
         if (manifest.permissions) {
           manifest.permissions = manifest.permissions.filter(
-            (permission: string) => permission !== 'identity'
+            (permission: string) => !['identity', 'sidePanel'].includes(permission)
           );
         }
         delete manifest.oauth2;
@@ -175,7 +176,7 @@ export default defineConfig({
         if (manifest.permissions) {
           // 移除 Safari 不支持的权限
           manifest.permissions = manifest.permissions.filter(
-            (permission: string) => !['identity', 'notifications'].includes(permission)
+            (permission: string) => !['identity', 'notifications', 'sidePanel'].includes(permission)
           );
         }
 

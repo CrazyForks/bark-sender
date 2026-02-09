@@ -6,6 +6,9 @@ import { fileCacheManager, dbManager } from './popup/utils/database';
 import { showSYSNotification } from './popup/utils/notification';
 
 export default defineBackground(() => {
+  const getStorageData = (...keys: string[]) =>
+    browser.storage.local.get(keys) as Promise<Record<string, any>>;
+
   // 初始化 i18n
   initBackgroundI18n();
   watchLanguageChanges();
@@ -101,7 +104,7 @@ export default defineBackground(() => {
   async function prefetchFavicon(url: string): Promise<string | null> {
     try {
       // 获取应用设置
-      const settingsResult = await browser.storage.local.get('bark_app_settings');
+      const settingsResult = await getStorageData('bark_app_settings');
       const settings = settingsResult.bark_app_settings || {};
 
       // 检查是否启用 favicon
@@ -148,8 +151,44 @@ export default defineBackground(() => {
     }
   }
 
+  // 初始化扩展栏图标点击行为
+  async function initActionClickBehavior() {
+    if (!browser.sidePanel) return;
+    try {
+      const settingsResult = await getStorageData('bark_app_settings');
+      const settings = settingsResult.bark_app_settings || {};
+      const behavior = settings.actionClickBehavior || 'popup';
+      await (browser.sidePanel as any).setPanelBehavior({
+        openPanelOnActionClick: behavior === 'sidepanel'
+      });
+      console.debug('扩展栏图标点击行为已设置为:', behavior);
+    } catch (error) {
+      console.debug('设置扩展栏图标点击行为失败:', error);
+    }
+  }
+  initActionClickBehavior();
+
   // 监听来自popup的消息
   browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    // 处理更新扩展栏图标点击行为
+    if (message.action === 'updateActionClickBehavior') {
+      if (browser.sidePanel) {
+        const openPanelOnActionClick = message.behavior === 'sidepanel';
+        (browser.sidePanel as any).setPanelBehavior({ openPanelOnActionClick })
+          .then(() => {
+            console.debug('扩展栏图标点击行为已更新为:', message.behavior);
+            sendResponse({ success: true });
+          })
+          .catch((error: any) => {
+            console.error('更新扩展栏图标点击行为失败:', error);
+            sendResponse({ success: false, error: error.message });
+          });
+      } else {
+        sendResponse({ success: false, error: 'sidePanel API 不可用' });
+      }
+      return true;
+    }
+
     if (message.action === 'prefetchFavicon') {
       prefetchFavicon(message.url)
         .then(faviconUrl => {
@@ -213,9 +252,9 @@ export default defineBackground(() => {
 
       // 获取默认设备和设置
       Promise.all([
-        browser.storage.local.get('bark_devices'),
-        browser.storage.local.get('bark_default_device'),
-        browser.storage.local.get('bark_app_settings')
+        getStorageData('bark_devices'),
+        getStorageData('bark_default_device'),
+        getStorageData('bark_app_settings')
       ]).then(([devicesResult, defaultDeviceResult, settingsResult]) => {
         const devices = devicesResult.bark_devices || [];
         const defaultDeviceId = defaultDeviceResult.bark_default_device || '';
@@ -625,7 +664,7 @@ export default defineBackground(() => {
 
       try {
         // 兜底：暂存到 chrome.storage.local
-        const result = await browser.storage.local.get('bark_history');
+        const result = await getStorageData('bark_history');
         const existingHistory = result.bark_history || [];
 
         // 添加新记录到数组开头（最新的在前面）
@@ -700,8 +739,8 @@ export default defineBackground(() => {
 
       // 获取默认设备
       const [devicesResult, defaultDeviceResult] = await Promise.all([
-        browser.storage.local.get('bark_devices'),
-        browser.storage.local.get('bark_default_device')
+        getStorageData('bark_devices'),
+        getStorageData('bark_default_device')
       ]);
 
       const devices = devicesResult.bark_devices || [];
@@ -764,7 +803,7 @@ export default defineBackground(() => {
   async function handleSendPush(apiURL: string, message: string, sound?: string, url?: string, title?: string, uuid?: string, authorization?: { type: 'basic'; user: string; pwd: string; value: string; }, useAPIv2?: boolean, devices?: Device[], icon?: string) {
     try {
       // 获取应用设置
-      const settingsResult = await browser.storage.local.get('bark_app_settings');
+      const settingsResult = await getStorageData('bark_app_settings');
       const settings = settingsResult.bark_app_settings || { enableEncryption: false };
 
       // 如果没有传入 devices，则创建一个单设备对象
@@ -815,7 +854,7 @@ export default defineBackground(() => {
   async function handleSendEncryptedPush(apiURL: string, message: string, encryptionConfig: EncryptionConfig, sound?: string, url?: string, title?: string, uuid?: string, authorization?: { type: 'basic'; user: string; pwd: string; value: string; }, useAPIv2?: boolean, devices?: Device[], icon?: string) {
     try {
       // 获取应用设置
-      const settingsResult = await browser.storage.local.get('bark_app_settings');
+      const settingsResult = await getStorageData('bark_app_settings');
       const settings = settingsResult.bark_app_settings || { enableEncryption: false };
 
       // 如果没有传入 devices，则创建一个单设备对象
@@ -882,9 +921,9 @@ export default defineBackground(() => {
     try {
       // 获取默认设备和设置
       const [devicesResult, defaultDeviceResult, settingsResult] = await Promise.all([
-        browser.storage.local.get('bark_devices'),
-        browser.storage.local.get('bark_default_device'),
-        browser.storage.local.get('bark_app_settings')
+        getStorageData('bark_devices'),
+        getStorageData('bark_default_device'),
+        getStorageData('bark_app_settings')
       ]);
 
       const devices = devicesResult.bark_devices || [];
@@ -1000,10 +1039,13 @@ export default defineBackground(() => {
     updateContextMenus();
   });
 
-  // 监听存储变化，动态更新右键菜单
+  // 监听存储变化，动态更新右键菜单和侧边栏行为
   browser.storage.onChanged.addListener((changes: any) => {
     if (changes.bark_devices || changes.bark_app_settings) {
       updateContextMenus();
+    }
+    if (changes.bark_app_settings) {
+      initActionClickBehavior();
     }
   });
 
@@ -1014,7 +1056,7 @@ export default defineBackground(() => {
       browser.contextMenus.removeAll();
 
       // 获取设置
-      const settingsResult = await browser.storage.local.get('bark_app_settings');
+      const settingsResult = await getStorageData('bark_app_settings');
       const settings = settingsResult.bark_app_settings || { enableContextMenu: true, enableInspectSend: true };
 
       // 老用户没有这项，这里默认启用
@@ -1026,8 +1068,8 @@ export default defineBackground(() => {
 
       // 获取设备列表和默认设备
       const [devicesResult, defaultDeviceResult] = await Promise.all([
-        browser.storage.local.get('bark_devices'),
-        browser.storage.local.get('bark_default_device')
+        getStorageData('bark_devices'),
+        getStorageData('bark_default_device')
       ]);
 
       const devices = devicesResult.bark_devices || [];
@@ -1096,9 +1138,9 @@ export default defineBackground(() => {
     try {
       // 获取默认设备和设置
       const [devicesResult, defaultDeviceResult, settingsResult] = await Promise.all([
-        browser.storage.local.get('bark_devices'),
-        browser.storage.local.get('bark_default_device'),
-        browser.storage.local.get('bark_app_settings')
+        getStorageData('bark_devices'),
+        getStorageData('bark_default_device'),
+        getStorageData('bark_app_settings')
       ]);
 
       const devices = devicesResult.bark_devices || [];

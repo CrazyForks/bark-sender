@@ -21,9 +21,10 @@ import { useAppContext } from '../contexts/AppContext';
 import { detectBrowser } from '../utils/platform';
 import ThemeSelector from './ThemeSelector';
 import LanguageSelector from './LanguageSelector';
+import ActionClickSelector from './ActionClickSelector';
 import CacheSetting from './CacheSetting';
 import DnsQueryCard from './DnsQueryCard';
-import { ThemeMode } from '../types';
+import { ThemeMode, ActionClickBehavior } from '../types';
 
 interface OtherSettingsProps {
     themeMode: ThemeMode;
@@ -57,6 +58,30 @@ export default function OtherSettings({ themeMode, onThemeChange, onError, onToa
             if (!enabled) {
                 handleKeepEssentialNotificationsToggle(false);
             }
+        } catch (error) {
+            onError(t('common.error_update', { message: error instanceof Error ? error.message : '未知错误' }));
+        }
+    };
+
+    // 侧边栏按钮显示开关切换
+    const handleShowSidepanelButtonToggle = async (enabled: boolean) => {
+        try {
+            await updateAppSetting('showSidepanelButton', enabled);
+        } catch (error) {
+            onError(t('common.error_update', { message: error instanceof Error ? error.message : '未知错误' }));
+        }
+    };
+
+    // 扩展栏图标点击行为切换
+    const handleActionClickBehaviorChange = async (behavior: ActionClickBehavior) => {
+        try {
+            await updateAppSetting('actionClickBehavior', behavior);
+            browser.runtime.sendMessage({
+                action: 'updateActionClickBehavior',
+                behavior
+            }).catch(error => {
+                console.debug('通知 background 更新点击行为失败:', error);
+            });
         } catch (error) {
             onError(t('common.error_update', { message: error instanceof Error ? error.message : '未知错误' }));
         }
@@ -99,6 +124,34 @@ export default function OtherSettings({ themeMode, onThemeChange, onError, onToa
                         </Typography>
                         <LanguageSelector />
                     </Box>
+
+                    {/* 侧边栏相关设置，仅 Chrome 显示 */}
+                    {browserType === 'chrome' && (
+                        <>
+                            <Box>
+                                <FormControlLabel
+                                    control={
+                                        <Switch
+                                            checked={appSettings?.showSidepanelButton ?? true}
+                                            onChange={(e) => handleShowSidepanelButtonToggle(e.target.checked)}
+                                        />
+                                    }
+                                    label={t('settings.sidepanel.show_button')}
+                                    sx={{ userSelect: 'none' }}
+                                />
+                            </Box>
+                            <Box>
+                                <Typography variant="subtitle1" gutterBottom>
+                                    {/* 扩展栏图标点击行为 */}
+                                    {t('settings.sidepanel.action_click_title')}
+                                </Typography>
+                                <ActionClickSelector
+                                    actionClickBehavior={appSettings?.actionClickBehavior ?? 'popup'}
+                                    onChange={handleActionClickBehaviorChange}
+                                />
+                            </Box>
+                        </>
+                    )}
                 </Stack>
             </Paper>
             <Paper elevation={2} sx={{ p: 3 }}>

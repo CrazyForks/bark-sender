@@ -33,7 +33,8 @@
     "nav": {
         "send": "发起推送",
         "history": "历史消息",
-        "settings": "修改配置"
+        "settings": "修改配置",
+        "open_sidepanel": "在侧边栏中打开"
     },
     "device": {
         "title": "设备管理",
@@ -292,6 +293,12 @@
                 "copy_failed": "复制失败",
                 "no_a_record": "未找到A记录"
             }
+        },
+        "sidepanel": {
+            "show_button": "显示侧边栏按钮",
+            "action_click_title": "扩展栏图标点击行为",
+            "action_popup": "弹出窗口",
+            "action_sidepanel": "侧边栏"
         },
         "other": {
             "interface": "界面相关",

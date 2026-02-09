@@ -33,7 +33,8 @@
     "nav": {
         "send": "發送通知",
         "history": "歷史記錄",
-        "settings": "設定"
+        "settings": "設定",
+        "open_sidepanel": "喺側邊欄中開啟"
     },
     "device": {
         "title": "裝置管理",
@@ -298,6 +299,12 @@
                 "copy_failed": "複製失敗",
                 "no_a_record": "未找到A記錄"
             }
+        },
+        "sidepanel": {
+            "show_button": "顯示側邊欄按鈕",
+            "action_click_title": "工具列圖示點擊行為",
+            "action_popup": "彈出視窗",
+            "action_sidepanel": "側邊欄"
         },
         "other": {
             "interface": "界面相關",

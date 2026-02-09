@@ -228,6 +228,23 @@ export async function encryptAESGCM(plaintext: string, keyStr: string, ivStr: st
 }
 
 /**
+ * 统一处理 headers
+ */
+function buildHeaders(authorization?: PushParams['authorization'], contentType?: string): Record<string, string> {
+    const headers: Record<string, string> = {};
+
+    if (contentType) {
+        headers['Content-Type'] = contentType;
+    }
+
+    if (authorization && authorization.value) {
+        headers['Authorization'] = authorization.value;
+    }
+
+    return headers;
+}
+
+/**
  * 发送明文推送消息 (API v1)
  */
 export async function sendPlainPush(msgPayload: MessagePayload, apiURL: string, authorization?: PushParams['authorization']): Promise<PushResponse> {
@@ -253,10 +270,7 @@ export async function sendPlainPush(msgPayload: MessagePayload, apiURL: string, 
 
     console.debug('发送明文请求到:', requestUrl);
 
-    const headers: Record<string, string> = {};
-    if (authorization && authorization.value) {
-        headers['Authorization'] = authorization.value;
-    }
+    const headers = buildHeaders(authorization);
 
     const response = await fetch(requestUrl, {
         method: 'GET',
@@ -302,12 +316,7 @@ export async function sendEncryptedPush(msgPayload: MessagePayload, apiURL: stri
     formData.append('ciphertext', ciphertext);
     formData.append('id', msgPayload.id || ''); // 不确定撤回是不是在这里读取的id, 也有可能在ciphertext中, 待以后验证
 
-    const headers: Record<string, string> = {
-        'Content-Type': 'application/x-www-form-urlencoded' // 表单数据 API v1 的(加密时)请求头, v2使用的是 application/json, bark-server 区别 API v1 和 v2 是根据 application/json
-    };
-    if (authorization && authorization.value) {
-        headers['Authorization'] = authorization.value;
-    }
+    const headers = buildHeaders(authorization, 'application/x-www-form-urlencoded');
 
     // 发送加密请求
     const response = await fetch(apiURL, {
@@ -418,13 +427,7 @@ function groupDevicesByServer(devices: Device[]): Record<string, Device[]> {
  */
 async function sendGroupAPIv2Push(msgPayload: MessagePayloadv2, endpoint: string, authorization?: PushParams['authorization'], encryptionConfig?: EncryptionConfig): Promise<PushResponse> {
     // 准备请求头
-    const headers: Record<string, string> = {
-        'Content-Type': 'application/json; charset=utf-8'
-    };
-
-    if (authorization && authorization.value) {
-        headers['Authorization'] = authorization.value;
-    }
+    const headers = buildHeaders(authorization, 'application/json; charset=utf-8');
 
     let payload = { ...msgPayload };
 

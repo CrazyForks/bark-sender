@@ -46,6 +46,8 @@ export const DEFAULT_SETTINGS: AppSettings = {
     enableSystemNotifications: true, // 启用系统通知，默认true
     keepEssentialNotifications: true, // 保有必要通知，默认true
     enableFileCache: true, // 文件缓存，默认开启
+    showSidepanelButton: true, // 显示侧边栏按钮，默认开启（仅 Chrome）
+    actionClickBehavior: 'popup', // 扩展栏图标点击行为，默认 popup（仅 Chrome）
 };
 
 // 获取浏览器存储API

@@ -19,8 +19,10 @@ import LockOpenIcon from '@mui/icons-material/LockOpen';
 // import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { useTranslation } from 'react-i18next';
 import { TabValue } from '../types';
+import { useAppContext } from '../contexts/AppContext';
 import LanguageSelect from './LanguageSelect';
-import { detectPlatform } from '../utils/platform';
+import SidePanelIcon from './SidePanelIcon';
+import { detectPlatform, detectBrowser } from '../utils/platform';
 
 interface LayoutProps {
     children: React.ReactNode;
@@ -41,7 +43,26 @@ export default function Layout({
     onEncryptionToggle
 }: LayoutProps) {
     const { t } = useTranslation();
+    const { appSettings } = useAppContext();
     const [isWindowMode] = useState(new URLSearchParams(window.location.search).get('mode') === 'window');
+    const [isSidepanelMode] = useState(new URLSearchParams(window.location.search).get('mode') === 'sidepanel');
+    const [isChrome] = useState(detectBrowser() === 'chrome');
+
+    const showSidepanelButton = isChrome && !isSidepanelMode && (appSettings?.showSidepanelButton ?? true);
+
+    const handleOpenSidePanel = () => {
+        if (browser.sidePanel) {
+            browser.windows.getCurrent((win) => {
+                if (win.id !== undefined) {
+                    (browser.sidePanel as any).open({ windowId: win.id }).then(() => {
+                        window.close();
+                    }).catch((error: any) => {
+                        console.debug('打开侧边栏失败:', error);
+                    });
+                }
+            });
+        }
+    };
 
     // 打开小窗口
     const handleOpenWindow = (event: React.MouseEvent) => {
@@ -88,7 +109,7 @@ export default function Layout({
             sx={{
                 width: '100%',
                 height: '100vh',
-                minWidth: 380,
+                minWidth: 360,
                 minHeight: 600,
                 display: 'flex',
                 flexDirection: 'column',
@@ -112,6 +133,21 @@ export default function Layout({
                         >
                             Bark Sender
                         </Typography>
+                        {showSidepanelButton && (
+                            <Tooltip title={t('nav.open_sidepanel')}>
+                                <IconButton
+                                    style={{ outline: 'none' }}
+                                    onClick={handleOpenSidePanel}
+                                    sx={{
+                                        color: 'white',
+                                        mr: 0.5
+                                    }}
+                                    size="small"
+                                >
+                                    <SidePanelIcon />
+                                </IconButton>
+                            </Tooltip>
+                        )}
                         {/* Appbar 的加密切换按钮 */}
                         {showEncryptionToggle && (
                             <Tooltip title={encryptionEnabled ?

@@ -28,6 +28,9 @@ export type TabValue = 'send' | 'history' | 'settings';
 // 主题模式类型
 export type ThemeMode = 'light' | 'dark' | 'system';
 
+// 扩展栏图标点击行为类型
+export type ActionClickBehavior = 'popup' | 'sidepanel';
+
 // 加密算法类型
 export type EncryptionAlgorithm = 'AES256' | 'AES192' | 'AES128';
 
@@ -73,6 +76,8 @@ export interface AppSettings {
     enableSystemNotifications?: boolean; // 是否启用系统通知
     keepEssentialNotifications?: boolean; // 是否保留必要通知（仅显示错误通知）
     enableFileCache?: boolean; // 是否启用文件缓存
+    showSidepanelButton?: boolean; // 是否在 AppBar 中显示侧边栏按钮
+    actionClickBehavior?: ActionClickBehavior; // 扩展栏图标点击行为
 }
 // 平台类型
 export type PlatformType = 'mac' | 'windows' | 'linux' | 'unknown';

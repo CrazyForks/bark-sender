@@ -30,6 +30,10 @@ body {
   /* min-height: 200px; */
 }
 
+.u-full body {
+  min-width: 100%;
+}
+
 /* 极速模式样式 */
 body.speed-mode {
   width: 380px;

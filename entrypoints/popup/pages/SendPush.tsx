@@ -49,6 +49,7 @@ interface SendPushProps {
 export default function SendPush({ devices, defaultDevice, onAddDevice }: SendPushProps) {
     const { t } = useTranslation();
     const { shortcutKeys, isAppleDevice } = useAppContext();
+    const [isSidepanelMode] = useState(new URLSearchParams(window.location.search).get('mode') === 'sidepanel');
     const [selectedDevice, setSelectedDevice] = useState<Device | null>(null);
     const [selectedDevices, setSelectedDevices] = useState<Device[]>([]);
     const [isApiV2, setIsApiV2] = useState(false);
@@ -505,7 +506,7 @@ export default function SendPush({ devices, defaultDevice, onAddDevice }: SendPu
             const loadContentToInput = async () => {
                 try {
                     // 先检查是否有 omnibox 缓存的文字
-                    const omniboxResult = await browser.storage.local.get('bark_omnibox_message');
+                    const omniboxResult = await browser.storage.local.get('bark_omnibox_message') as Record<string, any>;
                     if (omniboxResult.bark_omnibox_message && omniboxResult.bark_omnibox_message.trim()) {
                         setMessage(omniboxResult.bark_omnibox_message.trim());
                         localStorage.setItem('bark-sender-draft-message', omniboxResult.bark_omnibox_message.trim());
@@ -539,7 +540,7 @@ export default function SendPush({ devices, defaultDevice, onAddDevice }: SendPu
 
         if (useUrlDialog) {
             // 从 storage.local 读取 URL 数据
-            browser.storage.local.get('bark_url_data').then((result) => {
+            (browser.storage.local.get('bark_url_data') as Promise<Record<string, any>>).then((result) => {
                 if (result.bark_url_data) {
                     setUrlParams(result.bark_url_data);
                     setUrlDialogOpen(true);
@@ -621,19 +622,22 @@ export default function SendPush({ devices, defaultDevice, onAddDevice }: SendPu
                         />
                     )}
 
-                    <Stack gap={2}>
+                    <Stack gap={2} sx={isSidepanelMode ? { flex: 1 } : {}}>
                         {/* 
                         Source: by Dustin Curtis (CC0)
                         Original: https://github.com/dcurtis/markdown-mark/
                         */}
 
-                        <Box sx={{ position: 'relative' }}>
+                        <Box sx={{
+                            position: 'relative',
+                            ...(isSidepanelMode ? { flex: 1, display: 'flex', flexDirection: 'column' } : {})
+                        }}>
                             <TextField
                                 label={t('push.message')}
                                 /* 输入要推送的消息内容 */
                                 placeholder={t('push.message_placeholder')}
                                 multiline
-                                rows={3}
+                                {...(isSidepanelMode ? { minRows: 3 } : { rows: 3 })}
                                 value={message}
                                 onChange={handleMessageChange}
                                 onKeyDown={handleKeyDown}
@@ -641,6 +645,11 @@ export default function SendPush({ devices, defaultDevice, onAddDevice }: SendPu
                                 size="small"
                                 fullWidth
                                 autoFocus
+                                sx={isSidepanelMode ? {
+                                    flex: 1,
+                                    '& .MuiInputBase-root': { height: '100%', alignItems: 'flex-start' },
+                                    '& .MuiInputBase-inputMultiline': { height: '100% !important', overflow: 'auto !important' }
+                                } : {}}
                             />
                             {isApiV2 && (
                                 <Tooltip title={markdownEnabled ? t('push.markdown_disable') : t('push.markdown_enable')}>

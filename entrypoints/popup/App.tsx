@@ -53,17 +53,18 @@ function AppContent() {
     initHistoryService();
   }, []);
   const [windowMode,] = useState(new URLSearchParams(window.location.search).get('mode') === 'window');
-  // 检查是否是窗口模式并添加类名
+  const [sidepanelMode,] = useState(new URLSearchParams(window.location.search).get('mode') === 'sidepanel');
+  // 检查是否是窗口模式或侧边栏模式并添加类名
   useEffect(() => {
-    if (windowMode) {
+    if (windowMode || sidepanelMode) {
       document.documentElement.classList.add('u-full');
     }
     return () => {
-      if (windowMode) {
+      if (windowMode || sidepanelMode) {
         document.documentElement.classList.remove('u-full');
       }
     };
-  }, [windowMode]);
+  }, [windowMode, sidepanelMode]);
 
   // 设置data-theme属性以控制CSS样式
   useEffect(() => {

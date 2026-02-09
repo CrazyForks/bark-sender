@@ -33,7 +33,8 @@
     "nav": {
         "send": "Push",
         "history": "History",
-        "settings": "Settings"
+        "settings": "Settings",
+        "open_sidepanel": "Open in Side Panel"
     },
     "device": {
         "title": "Devices",
@@ -298,6 +299,12 @@
                 "copy_failed": "Copy failed",
                 "no_a_record": "No A record found"
             }
+        },
+        "sidepanel": {
+            "show_button": "Show Side Panel Button",
+            "action_click_title": "Toolbar Icon Click Behavior",
+            "action_popup": "Popup",
+            "action_sidepanel": "Side Panel"
         },
         "other": {
             "interface": "Interface",
