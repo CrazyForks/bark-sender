@@ -23,6 +23,8 @@ import ContentPasteIcon from '@mui/icons-material/ContentPaste';
 import KeyboardIcon from '@mui/icons-material/Keyboard';
 import UndoIcon from '@mui/icons-material/Undo';
 import CloseIcon from '@mui/icons-material/Close';
+import LockIcon from '@mui/icons-material/Lock';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
 import { useTranslation } from 'react-i18next';
 import { Device } from '../types';
 import { sendPushMessage } from '../utils/api';
@@ -48,7 +50,13 @@ interface SendPushProps {
 
 export default function SendPush({ devices, defaultDevice, onAddDevice }: SendPushProps) {
     const { t } = useTranslation();
-    const { shortcutKeys, isAppleDevice } = useAppContext();
+    const {
+        shortcutKeys,
+        isAppleDevice,
+        shouldShowEncryptionToggle,
+        toggleEncryption,
+        appSettings
+    } = useAppContext();
     const [isSidepanelMode] = useState(new URLSearchParams(window.location.search).get('mode') === 'sidepanel');
     const [selectedDevice, setSelectedDevice] = useState<Device | null>(null);
     const [selectedDevices, setSelectedDevices] = useState<Device[]>([]);
@@ -600,10 +608,31 @@ export default function SendPush({ devices, defaultDevice, onAddDevice }: SendPu
                         // transition: 'gap 0.3s ease-in-out'
                     }}
                 >
-                    <Typography variant="h6" gutterBottom>
-                        {/* 发送推送消息 */}
-                        {t('push.title')}
-                    </Typography>
+                    <Stack direction="row" alignItems="center" justifyContent="flex-start" sx={{ mb: 2 }} spacing={1}>
+                        <Typography variant="h6" component="div">
+                            {/* 发送推送消息 */}
+                            {t('push.title')}
+                        </Typography>
+
+                        {isSidepanelMode && shouldShowEncryptionToggle && (
+                            <Tooltip
+                                placement="right"
+                                title={(appSettings?.enableEncryption) ?
+                                    t('settings.encryption.tooltips.encryption_on') :
+                                    t('settings.encryption.tooltips.encryption_off')
+                                }>
+                                <IconButton
+                                    style={{ outline: 'none', }}
+                                    onClick={() => { void toggleEncryption(); }}
+                                    sx={{ color: 'text.secondary' }}
+                                    aria-label="encryption-toggle"
+                                    size="small"
+                                >
+                                    {(appSettings?.enableEncryption) ? <LockIcon fontSize="small" /> : <LockOpenIcon fontSize="small" />}
+                                </IconButton>
+                            </Tooltip>
+                        )}
+                    </Stack>
 
                     {isApiV2 ? (
                         <DeviceSelectV2

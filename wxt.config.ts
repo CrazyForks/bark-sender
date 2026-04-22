@@ -28,7 +28,7 @@ export default defineConfig({
       'notifications',
       'clipboardRead', // Firefox 不支持 clipboardRead 权限
       'identity', // Chrome 特有
-      'sidePanel' // Chrome 特有
+      'sidePanel' // Chromium：Chrome、Edge 支持
     ],
     host_permissions: [
       'https://*/*',
@@ -141,8 +141,8 @@ export default defineConfig({
               }
             };
             source: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/browser_specific_settings
-        如果是Edge: 
-        移除 identity 和 oauth2，保留其他功能
+        如果是 Edge（Chromium）: 
+        移除 identity 和 oauth2；保留其他功能
       */
       if (wxt.config.browser === 'firefox') {
         if (manifest.commands && manifest.commands['send-clipboard']) {
@@ -168,7 +168,7 @@ export default defineConfig({
       } else if (wxt.config.browser === 'edge') {
         if (manifest.permissions) {
           manifest.permissions = manifest.permissions.filter(
-            (permission: string) => !['identity', 'sidePanel'].includes(permission)
+            (permission: string) => !['identity'].includes(permission)
           );
         }
         delete manifest.oauth2;

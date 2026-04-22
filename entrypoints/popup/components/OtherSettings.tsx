@@ -18,7 +18,7 @@ import KeyboardIcon from '@mui/icons-material/Keyboard';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../contexts/AppContext';
-import { detectBrowser } from '../utils/platform';
+import { detectBrowser, isChromium } from '../utils/platform';
 import ThemeSelector from './ThemeSelector';
 import LanguageSelector from './LanguageSelector';
 import ActionClickSelector from './ActionClickSelector';
@@ -125,8 +125,8 @@ export default function OtherSettings({ themeMode, onThemeChange, onError, onToa
                         <LanguageSelector />
                     </Box>
 
-                    {/* 侧边栏相关设置，仅 Chrome 显示 */}
-                    {browserType === 'chrome' && (
+                    {/* 侧栏：Chrome / Edge */}
+                    {isChromium() && (
                         <>
                             <Box>
                                 <FormControlLabel

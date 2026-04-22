@@ -22,7 +22,7 @@ import { TabValue } from '../types';
 import { useAppContext } from '../contexts/AppContext';
 import LanguageSelect from './LanguageSelect';
 import SidePanelIcon from './SidePanelIcon';
-import { detectPlatform, detectBrowser } from '../utils/platform';
+import { detectPlatform, isChromium } from '../utils/platform';
 
 interface LayoutProps {
     children: React.ReactNode;
@@ -46,9 +46,10 @@ export default function Layout({
     const { appSettings } = useAppContext();
     const [isWindowMode] = useState(new URLSearchParams(window.location.search).get('mode') === 'window');
     const [isSidepanelMode] = useState(new URLSearchParams(window.location.search).get('mode') === 'sidepanel');
-    const [isChrome] = useState(detectBrowser() === 'chrome');
+    const [canUseSidepanelUi] = useState(isChromium());
 
-    const showSidepanelButton = isChrome && !isSidepanelMode && (appSettings?.showSidepanelButton ?? true);
+    const showSidepanelButton =
+        canUseSidepanelUi && !isSidepanelMode && (appSettings?.showSidepanelButton ?? true);
 
     const handleOpenSidePanel = () => {
         if (browser.sidePanel) {
@@ -125,51 +126,53 @@ export default function Layout({
                 }}
             >
                 {/* 顶部AppBar */}
-                <AppBar position="static" elevation={2} sx={{ borderTop: 'none', borderLeft: 'none', borderRight: 'none' }}>
-                    <Toolbar variant="dense" sx={{ minHeight: 48 }}>
-                        <Typography variant="h6" component="div"
-                            sx={{ flexGrow: 1, fontSize: '1.1rem', userSelect: 'none' }}
-                            onDoubleClick={handleOpenWindow}
-                        >
-                            Bark Sender
-                        </Typography>
-                        {showSidepanelButton && (
-                            <Tooltip title={t('nav.open_sidepanel')}>
-                                <IconButton
-                                    style={{ outline: 'none' }}
-                                    onClick={handleOpenSidePanel}
-                                    sx={{
-                                        color: 'white',
-                                        mr: 0.5
-                                    }}
-                                    size="small"
-                                >
-                                    <SidePanelIcon />
-                                </IconButton>
-                            </Tooltip>
-                        )}
-                        {/* Appbar 的加密切换按钮 */}
-                        {showEncryptionToggle && (
-                            <Tooltip title={encryptionEnabled ?
-                                t('settings.encryption.tooltips.encryption_on') :
-                                t('settings.encryption.tooltips.encryption_off')
-                            }>
-                                <IconButton
-                                    style={{ outline: 'none' }}
-                                    onClick={onEncryptionToggle}
-                                    sx={{
-                                        color: 'white',
-                                        mr: 1
-                                    }}
-                                    size="small"
-                                >
-                                    {encryptionEnabled ? <LockIcon /> : <LockOpenIcon />}
-                                </IconButton>
-                            </Tooltip>
-                        )}
-                        <LanguageSelect />
-                    </Toolbar>
-                </AppBar>
+                {!isSidepanelMode && (
+                    <AppBar position="static" elevation={2} sx={{ borderTop: 'none', borderLeft: 'none', borderRight: 'none' }}>
+                        <Toolbar variant="dense" sx={{ minHeight: 48 }}>
+                            <Typography variant="h6" component="div"
+                                sx={{ flexGrow: 1, fontSize: '1.1rem', userSelect: 'none' }}
+                                onDoubleClick={handleOpenWindow}
+                            >
+                                Bark Sender
+                            </Typography>
+                            {showSidepanelButton && (
+                                <Tooltip title={t('nav.open_sidepanel')}>
+                                    <IconButton
+                                        style={{ outline: 'none' }}
+                                        onClick={handleOpenSidePanel}
+                                        sx={{
+                                            color: 'white',
+                                            mr: 2
+                                        }}
+                                        size="small"
+                                    >
+                                        <SidePanelIcon />
+                                    </IconButton>
+                                </Tooltip>
+                            )}
+                            {/* Appbar 的加密切换按钮 */}
+                            {showEncryptionToggle && (
+                                <Tooltip title={encryptionEnabled ?
+                                    t('settings.encryption.tooltips.encryption_on') :
+                                    t('settings.encryption.tooltips.encryption_off')
+                                }>
+                                    <IconButton
+                                        style={{ outline: 'none' }}
+                                        onClick={onEncryptionToggle}
+                                        sx={{
+                                            color: 'white',
+                                            mr: 1
+                                        }}
+                                        size="small"
+                                    >
+                                        {encryptionEnabled ? <LockIcon /> : <LockOpenIcon />}
+                                    </IconButton>
+                                </Tooltip>
+                            )}
+                            <LanguageSelect />
+                        </Toolbar>
+                    </AppBar>
+                )}
 
                 {/* 主内容区域 */}
                 <Box

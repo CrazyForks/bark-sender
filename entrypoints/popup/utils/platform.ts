@@ -85,4 +85,12 @@ export function detectBrowser(): 'firefox' | 'chrome' | 'edge' | 'safari' | 'unk
     }
 
     return 'unknown';
-} 
+}
+
+/**
+ * 当前环境是否为 Chromium 浏览器（Chrome / Edge）
+ */
+export function isChromium(): boolean {
+    const b = detectBrowser();
+    return ['chrome', 'edge'].includes(b);
+}
