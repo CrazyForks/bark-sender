@@ -72,8 +72,10 @@ export default function History() {
             console.debug('开始导入 storage.local 中的暂存历史记录');
 
             // 1. 从 storage.local读取暂存历史记录
-            const result = await browser.storage.local.get('bark_history');
-            const storageHistory = result.bark_history || [];
+            const result = (await browser.storage.local.get('bark_history')) as {
+                bark_history?: HistoryRecord[];
+            };
+            const storageHistory = result.bark_history ?? [];
 
             if (storageHistory.length === 0) {
                 console.debug('没有需要导入的暂存历史记录');
@@ -132,8 +134,10 @@ export default function History() {
             }
 
             // 从 storage.local 读取历史记录
-            const result = await browser.storage.local.get('bark_history');
-            const storageHistory = result.bark_history || [];
+            const result = (await browser.storage.local.get('bark_history')) as {
+                bark_history?: HistoryRecord[];
+            };
+            const storageHistory = result.bark_history ?? [];
 
             console.debug('从 storage.local读取的历史记录:', storageHistory);
             console.debug('历史记录数量:', storageHistory.length);

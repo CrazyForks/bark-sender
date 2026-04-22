@@ -22,7 +22,7 @@ import {
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import { useTranslation } from 'react-i18next';
-import { Sound } from '../types';
+import { Device, Sound } from '../types';
 import { sendPushMessage } from '../utils/api';
 import { generateID } from '../../shared/push-service';
 import { SlideUpTransition } from './DialogTransitions';
@@ -191,12 +191,16 @@ export default function SoundDialog({ open, currentSound, onClose, onSave }: Sou
         try {
             setTestingSound(soundName);
 
-            const devicesResult = await browser.storage.local.get('bark_devices');
-            const defaultDeviceResult = await browser.storage.local.get('bark_default_device');
+            const devicesResult = (await browser.storage.local.get('bark_devices')) as {
+                bark_devices?: Device[];
+            };
+            const defaultDeviceResult = (await browser.storage.local.get('bark_default_device')) as {
+                bark_default_device?: string;
+            };
 
-            const devices = devicesResult.bark_devices || [];
-            const defaultDeviceId = defaultDeviceResult.bark_default_device || '';
-            const defaultDevice = devices.find((device: any) => device.id === defaultDeviceId) || devices[0];
+            const devices = devicesResult.bark_devices ?? [];
+            const defaultDeviceId = defaultDeviceResult.bark_default_device ?? '';
+            const defaultDevice = devices.find((device) => device.id === defaultDeviceId) ?? devices[0];
 
             if (!defaultDevice) {
                 console.warn('未找到默认设备，无法测试铃声');

@@ -19,9 +19,9 @@ let currentLanguage: string = DEFAULT_LANGUAGE;
 export async function initBackgroundI18n(): Promise<void> {
     try {
         // 读取用户保存的语言设置（与React i18next使用相同的存储键）
-        const result = await browser.storage.local.get('language');
+        const result = (await browser.storage.local.get('language')) as { language?: string };
 
-        if (result.language && Object.keys(LANGUAGE_MAP).includes(result.language)) {
+        if (typeof result.language === 'string' && Object.keys(LANGUAGE_MAP).includes(result.language)) {
             currentLanguage = result.language;
         } else {
             // 如果没有保存的语言设置，检测浏览器语言
@@ -63,7 +63,7 @@ export function watchLanguageChanges(): void {
     browser.storage.onChanged.addListener((changes) => {
         if (changes.language) {
             const newLanguage = changes.language.newValue;
-            if (newLanguage && Object.keys(LANGUAGE_MAP).includes(newLanguage)) {
+            if (typeof newLanguage === 'string' && Object.keys(LANGUAGE_MAP).includes(newLanguage)) {
                 currentLanguage = newLanguage;
                 console.debug('Background i18n 语言已更新:', currentLanguage);
             }

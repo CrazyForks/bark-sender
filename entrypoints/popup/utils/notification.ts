@@ -1,3 +1,5 @@
+import { AppSettings } from '../types';
+
 /**
  * 取代 browser.notifications.create 用于显示系统级通知
  * @param title 通知标题
@@ -10,8 +12,10 @@ export async function showSYSNotification(
     isEssential: boolean = false
 ): Promise<void> {
     try {
-        const settingsResult = await browser.storage.local.get('bark_app_settings');
-        const settings = settingsResult.bark_app_settings || {};
+        const settingsResult = (await browser.storage.local.get('bark_app_settings')) as {
+            bark_app_settings?: AppSettings;
+        };
+        const settings: Partial<AppSettings> = settingsResult.bark_app_settings ?? {};
 
         // 检查系统通知设置
         if (settings.enableSystemNotifications === false) {

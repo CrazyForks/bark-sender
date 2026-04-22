@@ -25,9 +25,9 @@ const resources = {
 
 const initializeLanguage = async (): Promise<string> => {
     try {
-        const result = await browser.storage.local.get('language');
+        const result = (await browser.storage.local.get('language')) as { language?: string };
 
-        if (result.language && isSupportedLanguage(result.language)) {
+        if (typeof result.language === 'string' && isSupportedLanguage(result.language)) {
             // 如果已有存储的语言设置且在支持范围内，使用存储的语言
             return result.language;
         } else {
