@@ -1486,7 +1486,7 @@ export default defineContentScript({
                 if (sendImgAltBtn && imgAltTextarea) {
                     sendImgAltBtn.addEventListener('click', () => {
                         const altText = imgAltTextarea.value.trim();
-                        handleSendContent('text', altText, '图片替代文本');
+                        handleSendContent('text', altText, i18n.altText || '图片替代文本');
                     });
                 }
 
@@ -1497,7 +1497,7 @@ export default defineContentScript({
                 if (sendCurrentTextBtn && currentTextarea) {
                     sendCurrentTextBtn.addEventListener('click', () => {
                         const text = currentTextarea.value.trim();
-                        handleSendContent('text', text, '当前元素文本');
+                        handleSendContent('text', text, i18n.currentElementText || '当前元素文本');
                     });
                 }
 
@@ -1509,7 +1509,7 @@ export default defineContentScript({
                     sendParentTextBtn.addEventListener('click', () => {
                         const text = parentTextarea.value.trim();
                         if (text && text !== '无父元素') {
-                            handleSendContent('text', text, '父元素文本');
+                            handleSendContent('text', text, i18n.parentElementText || '父元素文本');
                         }
                     });
                 }
@@ -1522,7 +1522,7 @@ export default defineContentScript({
                 if (sendPageUrlBtn && pageTitleInput && pageUrlTextarea) {
                     sendPageUrlBtn.addEventListener('click', () => {
                         const url = pageUrlTextarea.value.trim();
-                        const title = pageTitleInput.value.trim() || '网页链接';
+                        const title = pageTitleInput.value.trim() || i18n.pageLink || '网页链接';
                         handleSendContent('url', url, title);
                     });
                 }
@@ -1547,7 +1547,7 @@ export default defineContentScript({
                     if (sendContextSelectionBtn && contextSelectionTextarea) {
                         sendContextSelectionBtn.addEventListener('click', () => {
                             const text = contextSelectionTextarea.value.trim();
-                            handleSendContent('text', text, '选中文本');
+                            handleSendContent('text', text, i18n.selectedText || '选中文本');
                         });
                     }
                 }
