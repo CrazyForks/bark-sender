@@ -93,6 +93,7 @@
             "title": "右键菜单",
             "enable": "启用右键上下文菜单",
             "enable_inspect_send": "启用右键解析网页内容",
+            "enable_simplified_processing": "简化处理",
             "send_selection_to_device": "发送选中的文本给 {{device}}",
             "send_page_to_device": "发送当前页面的网址给 {{device}}",
             "send_link_to_device": "发送目标网址给 {{device}}",

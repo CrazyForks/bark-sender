@@ -115,6 +115,7 @@ export function useAppSettings() {
     const [settings, setSettings] = useState<AppSettings>({
         enableContextMenu: true,
         enableInspectSend: true,
+        enableSimplifiedProcessing: false,
         themeMode: 'system',
         enableEncryption: false,
         encryptionConfig: {

@@ -93,6 +93,7 @@
             "title": "Right-click Menu",
             "enable": "Enable right-click context menu",
             "enable_inspect_send": "Enable inspect and send web content",
+            "enable_simplified_processing": "Simplified processing",
             "send_selection_to_device": "Send selected text to {{device}}",
             "send_page_to_device": "Send the current page URL to {{device}}",
             "send_link_to_device": "Send target URL to {{device}}",

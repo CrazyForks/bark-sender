@@ -93,6 +93,7 @@
             "title": "右鍵選單",
             "enable": "啟用右鍵選單",
             "enable_inspect_send": "啟用右鍵解析網頁內容",
+            "enable_simplified_processing": "簡化處理",
             "send_selection_to_device": "發送選取的文字給 {{device}}",
             "send_page_to_device": "發送目前頁面網址給 {{device}}",
             "send_link_to_device": "發送目標網址給 {{device}}",

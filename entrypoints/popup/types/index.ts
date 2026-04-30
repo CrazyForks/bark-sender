@@ -59,6 +59,7 @@ export interface Sound {
 export interface AppSettings {
     enableContextMenu: boolean;
     enableInspectSend: boolean;
+    enableSimplifiedProcessing?: boolean; // 是否启用简化处理
     themeMode: ThemeMode;
     enableEncryption: boolean;
     encryptionConfig?: EncryptionConfig;

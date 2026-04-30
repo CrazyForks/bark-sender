@@ -26,6 +26,7 @@ export const DEFAULT_ADVANCED_PARAMS = {
 export const DEFAULT_SETTINGS: AppSettings = {
     enableContextMenu: true,
     enableInspectSend: true,
+    enableSimplifiedProcessing: false, // 简化处理，默认关闭
     themeMode: 'system',
     enableEncryption: false,
     encryptionConfig: {

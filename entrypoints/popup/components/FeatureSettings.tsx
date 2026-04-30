@@ -44,6 +44,15 @@ export default function FeatureSettings({ devices, onError, onToast }: FeatureSe
         }
     };
 
+    // 处理简化处理开关切换
+    const handleSimplifiedProcessingToggle = async (enabled: boolean) => {
+        try {
+            await updateAppSetting('enableSimplifiedProcessing', enabled);
+        } catch (error) {
+            onError(t('common.error_update', { message: error instanceof Error ? error.message : '未知错误' }));
+        }
+    };
+
     // 处理完整参数配置开关切换
     const handleAdvancedParamsToggle = async (enabled: boolean) => {
         try {
@@ -107,6 +116,20 @@ export default function FeatureSettings({ devices, onError, onToast }: FeatureSe
                                 />
                             }
                             label={t('settings.context_menu.enable_inspect_send')}
+                            sx={{ userSelect: 'none' }}
+                        />
+                    )}
+                    {appSettings?.enableContextMenu && (
+                        <FormControlLabel
+                            control={
+                                <Switch
+                                    disabled={devices.length === 0}
+                                    checked={appSettings?.enableSimplifiedProcessing ?? false}
+                                    onChange={(e) => handleSimplifiedProcessingToggle(e.target.checked)}
+                                    color='primary'
+                                />
+                            }
+                            label={t('settings.context_menu.enable_simplified_processing')}
                             sx={{ userSelect: 'none' }}
                         />
                     )}
