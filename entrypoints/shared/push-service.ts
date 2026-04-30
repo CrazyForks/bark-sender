@@ -538,7 +538,7 @@ export function getRequestParameters(params: PushParams, isEncrypted: boolean): 
     const paramMap: Record<string, string | undefined> = {
         message: params.message,
         autoCopy: params.autoCopy || '1',
-        copy: params.copy || params.message,
+        copy: params.copy,
         id: params.uuid || '',
         sound: params.sound || '',
         title: params.title,

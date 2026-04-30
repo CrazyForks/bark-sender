@@ -2,6 +2,7 @@ import { PushResponse, Device } from '../types';
 import { getAppSettings } from './settings';
 import { recordPushHistory } from './database';
 import { sendPush, getRequestParameters, generateID, PushParams, EncryptionConfig } from '../../shared/push-service';
+import { resolveSimplifiedProcessing } from '../../shared/simplified-processing';
 
 /**
  * 发送推送消息 - 通过background script
@@ -15,6 +16,7 @@ import { sendPush, getRequestParameters, generateID, PushParams, EncryptionConfi
  * @param devices 设备列表
  * @param icon 图标URL
  * @param markdownEnabled 是否启用markdown
+ * @param urlDialogSend 无法注入脚本时 UrlDialog 弹窗发起的推送
  */
 export async function sendPushMessage(
     device: Device,
@@ -26,7 +28,8 @@ export async function sendPushMessage(
     advancedParams?: Record<string, any>,
     devices?: Device[],
     icon?: string,
-    markdownEnabled?: boolean
+    markdownEnabled?: boolean,
+    urlDialogSend?: boolean
 ): Promise<PushResponse> {
     let response: PushResponse;
     let method: 'GET' | 'POST' = 'GET';
@@ -88,6 +91,20 @@ export async function sendPushMessage(
             ))
         };
 
+        if (urlDialogSend) {
+            const { simplifiedActive, resolvedCopy } = resolveSimplifiedProcessing({
+                enableSimplifiedProcessing: !!settings.enableSimplifiedProcessing,
+                copy: pushParams.copy,
+                fallbackCopyContent: message
+            });
+            if (simplifiedActive) {
+                pushParams.message = resolvedCopy;
+                pushParams.title = undefined;
+                pushParams.url = undefined;
+                pushParams.copy = undefined;
+            }
+        }
+
         // 根据是否启用加密和API v2选择发送方式
         if (settings.enableEncryption && settings.encryptionConfig?.key) {
             method = 'POST';
@@ -107,7 +124,7 @@ export async function sendPushMessage(
 
         // 记录推送历史
         await recordPushHistory(
-            message,
+            pushParams.message,
             device.apiURL,
             device.alias,
             response,

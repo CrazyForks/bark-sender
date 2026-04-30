@@ -1,5 +1,6 @@
 import { initBackgroundI18n, watchLanguageChanges, getMessage } from './background/i18n-helper';
 import { sendPush, getRequestParameters, generateID, PushParams, EncryptionConfig } from './shared/push-service';
+import { resolveSimplifiedProcessing } from './shared/simplified-processing';
 import { Device } from './popup/types';
 import { DEFAULT_ADVANCED_PARAMS } from './popup/utils/settings';
 import { fileCacheManager, dbManager } from './popup/utils/database';
@@ -260,6 +261,7 @@ export default defineBackground(() => {
         const defaultDeviceId = defaultDeviceResult.bark_default_device || '';
         const defaultDevice = devices.find((device: any) => device.id === defaultDeviceId) || devices[0];
         const settings = settingsResult.bark_app_settings || { enableEncryption: false };
+        const enableSimplifiedProcessing = !!settings?.enableSimplifiedProcessing;
 
         // console.debug('获取到的设置:', settings);
         // console.debug('文件缓存设置:', settings.enableFileCache);
@@ -364,6 +366,21 @@ export default defineBackground(() => {
           ...(autoCopy && { autoCopy }),
           ...filteredCustomParams // 添加过滤后的自定义参数差异
         };
+
+        const { simplifiedActive, resolvedCopy } = resolveSimplifiedProcessing({
+          enableSimplifiedProcessing,
+          copy: pushParams.copy,
+          fallbackCopyContent: message.copyContent
+        });
+
+        pushParams.message = simplifiedActive ? resolvedCopy : pushParams.message;
+        pushParams.title = simplifiedActive ? undefined : pushParams.title;
+        pushParams.url = simplifiedActive ? undefined : pushParams.url;
+        pushParams.copy = simplifiedActive ? undefined : pushParams.copy;
+
+        content = simplifiedActive ? resolvedCopy : content;
+        title = simplifiedActive ? '' : title;
+        url = simplifiedActive ? undefined : url;
 
         // 根据设置选择是否加密, 避免 414 Request-URI Too Large 错误, 使用 POST 请求（API v2 使用POST, 默认 4Kb)
         let isEncrypted = false;
@@ -1147,6 +1164,7 @@ export default defineBackground(() => {
       const defaultDeviceId = defaultDeviceResult.bark_default_device || '';
       defaultDevice = devices.find((device: any) => device.id === defaultDeviceId) || devices[0];
       settings = settingsResult.bark_app_settings || { enableEncryption: false };
+      const enableSimplifiedProcessing = !!settings?.enableSimplifiedProcessing;
 
       // 对于切换极速模式，不需要检查默认设备
       if (info.menuItemId === 'toggle-speed-mode') {
@@ -1298,6 +1316,20 @@ export default defineBackground(() => {
           ...(finalIcon && { icon: finalIcon }),
           ...filteredCustomParams
         };
+
+        const { simplifiedActive, resolvedCopy } = resolveSimplifiedProcessing({
+          enableSimplifiedProcessing,
+          copy: pushParams.copy
+        });
+
+        pushParams.message = simplifiedActive ? resolvedCopy : pushParams.message;
+        pushParams.title = simplifiedActive ? undefined : pushParams.title;
+        pushParams.url = simplifiedActive ? undefined : pushParams.url;
+        pushParams.copy = simplifiedActive ? undefined : pushParams.copy;
+
+        message = simplifiedActive ? resolvedCopy : message;
+        title = simplifiedActive ? '' : title;
+        url = simplifiedActive ? '' : url;
 
         // 根据设置选择发送方式
         if (settings.enableEncryption && settings.encryptionConfig?.key) {

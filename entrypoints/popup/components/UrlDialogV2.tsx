@@ -190,7 +190,9 @@ export default function UrlDialogV2({
                 undefined,
                 undefined,
                 selectedDevices,
-                faviconUrl || undefined
+                faviconUrl || undefined,
+                undefined,
+                true
             );
 
             if (response.code === 200) {
@@ -224,7 +226,9 @@ export default function UrlDialogV2({
                 undefined,
                 undefined,
                 selectedDevices,
-                faviconUrl || undefined
+                faviconUrl || undefined,
+                undefined,
+                true
             );
 
             if (response.code === 200) {
@@ -258,7 +262,9 @@ export default function UrlDialogV2({
                 undefined,
                 undefined,
                 selectedDevices,
-                faviconUrl || undefined
+                faviconUrl || undefined,
+                undefined,
+                true
             );
 
             if (response.code === 200) {

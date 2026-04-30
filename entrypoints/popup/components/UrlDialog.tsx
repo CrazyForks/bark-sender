@@ -188,7 +188,9 @@ export default function UrlDialog({
                 undefined,
                 undefined,
                 undefined,
-                faviconUrl || undefined
+                faviconUrl || undefined,
+                undefined,
+                true
             );
 
             if (response.code === 200) {
@@ -222,7 +224,9 @@ export default function UrlDialog({
                 undefined,
                 undefined,
                 undefined,
-                faviconUrl || undefined
+                faviconUrl || undefined,
+                undefined,
+                true
             );
 
             if (response.code === 200) {
@@ -256,7 +260,9 @@ export default function UrlDialog({
                 undefined,
                 undefined,
                 undefined,
-                faviconUrl || undefined
+                faviconUrl || undefined,
+                undefined,
+                true
             );
 
             if (response.code === 200) {
